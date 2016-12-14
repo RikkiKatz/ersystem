@@ -26,37 +26,15 @@ public class UserDAO {
 		this.conn = conn;
 	}
 
-	/**
-	 * Get all Users from DB
-	 * 
-	 * @return
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
 	public List<User> getAll() throws SQLException, ClassNotFoundException {
-		
-		// stores all the user rows in an ArrayList
-		List<User> results = new ArrayList<User>();
-		
-		// construct SQL query
+		List<User> results = new ArrayList<User>();		
 		String sql = "SELECT * FROM ERS_USERS";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-
-		// ResultSet contains rows returned by query
 		ResultSet rs = stmt.executeQuery();
-		
-		// convert ResultSet into a JavaList
 		mapRows(rs, results);
 		return results;
 	}// getAll
 
-	/**
-	 * Helper method to get a list of all users
-	 * 
-	 * @param rs
-	 * @param results
-	 * @throws SQLException 
-	 */
 	private void mapRows(ResultSet rs, List<User> results) throws SQLException {
 
 		while(rs.next()) {
@@ -81,46 +59,95 @@ public class UserDAO {
 	}// mapRows
 
 	/**
-	 * Get user from DB with a matching username
+	 * Get user's full name from DB with a matching username
 	 * @param username
 	 * @return
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public User getByUsername(String username) throws SQLException {
-		User user = new User();
+	public User getUserLoginInfo(String username, String password) throws SQLException {
 		// construct SQL query
-		String sql = "SELECT * FROM ERS_USERS WHERE ERS_USERNAME='" + username +"'";
+		String sql = "SELECT *"
+				+ " FROM ERS_USERS"
+				+ " WHERE ERS_USERNAME = ? AND ERS_PASSWORD = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-
-		// ResultSet contains row returned by query
+		stmt.setString(1, username);
+		stmt.setString(2, password);
+			
 		ResultSet rs = stmt.executeQuery();
-		
-		mapRow(rs, user);
-		return user;
+		if(rs.next()) {
+			UserRole role;
+			if(rs.getInt("USER_ROLE_ID")==2) {
+				role = new UserRole(2, "Employee");
+			}else {
+				role = new UserRole(1, "Manager");
+			}
+			User user = new User(
+					rs.getInt("ERS_USERS_ID"),
+					  rs.getString("ERS_USERNAME"),
+					  rs.getString("ERS_PASSWORD"),
+					  rs.getString("USER_FIRST_NAME"),
+					  rs.getString("USER_LAST_NAME"),
+					  rs.getString("USER_EMAIL"),
+					  role);
+			System.out.println("User Created: " + user.getUser_id());
+			return user;			
+		}
+		return null;
 	}// getByUsername
 
 	/**
-	 * Get user from DB with a matching ID
+	 * Get user's full name from DB with a matching ID
 	 * @param user_id
 	 * @return
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public User getById(int user_id) throws SQLException {
+	public String getById(int id) throws SQLException {
 		User user = new User();
+		String firstName = null;
+		String lastName = null;
+
 		// construct SQL query
-		String sql = "SELECT * FROM ERS_USERS WHERE ERS_USERS_ID=" + user_id;
+		String sql = "SELECT USER_FIRST_NAME, USER_LAST_NAME"
+				+ " FROM ERS_USERS"
+				+ " WHERE ERS_USERNAME = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
-		// ResultSet contains row returned by query
+		stmt.setInt(1, id);
+		ResultSet rs = stmt.executeQuery();		
+		if (rs.next()) {
+				firstName = rs.getString("USER_FIRST_NAME");
+				lastName = rs.getString("USER_LAST_NAME");
+		}
+		return firstName + " " + lastName;
+
+	}
+		
+	public User getByLoginInfo(String username, String password) throws SQLException {	
+		String sql = "SELECT * "
+				+ " FROM ERS_USERS"
+				+ " WHERE ERS_USERNAME = ?"
+				+ " AND ERS_PASSWORD = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, username);
+		stmt.setString(1, password);
 		ResultSet rs = stmt.executeQuery();
 		
-		// Find the matching row
-		mapRow(rs, user);
-		return user;
-
-	}// getById
+		if(rs.next()){
+			UserRole role = new UserRole(2,"Employee");
+			User user = new User(rs.getInt("ERS_USERS_ID"),
+					  rs.getString("ERS_USERNAME"),
+					  rs.getString("ERS_PASSWORD"),
+					  rs.getString("USER_FIRST_NAME"),
+					  rs.getString("USER_LAST_NAME"),
+					  rs.getString("USER_EMAIL"),
+					  role);
+			System.out.println("User Created: " +user.getUser_id());
+			return user;
+		}
+		return null;
+	}
 	
 	/**
 	 * Helper method to get a single user

@@ -35,7 +35,7 @@
 			<h2>Submit New Reimbursement Request</h2>
 		</div>
 	
-		<form id= "newRequestForm" action="newReimbursement.do" method="post">
+		<form id= "newRequestForm" action="newRequest.do" method="post">
 			<div class="form-group form-inline">
 				<select class="form-control" placeholder="type">
 					<option value="" disabled selected>Type</option>
@@ -61,7 +61,7 @@
 			</div>
 			<div class="form-group">
 				<label>Upload Receipt</label> 
-				<input type="file" id="exampleInputFile">
+				<input type="file" id="receipt">
 			</div>
 			<input type="submit" class="btn btn-primary" value="Submit" />
 		</form>

@@ -14,48 +14,53 @@ import com.revature.ers.ServiceLocator;
  */
 public class DataFacade {
 
-	/**
-	 * 
-	 * @param username
-	 * @return
-	 * @throws SQLException
-	 */
-	public User getUserByName(String username) throws SQLException {
-		Connection conn = ServiceLocator.getERSDatabase().getConnection();
-		UserDAO dao = new UserDAO(conn);
-		
-		conn.close();
-		return dao.getByUsername(username);
+	Connection conn;
+	
+	public  DataFacade() throws SQLException {
+		conn = ServiceLocator.getERSDatabase().getConnection();	
 	}
 
-	/**
-	 * Get Reimb Types
-	 * @return
-	 * @throws SQLException
-	 */
+	public User createUser(String username, String password) throws SQLException {
+		return new UserDAO(conn).getByLoginInfo(username, password);
+	}
+	
+	public User getUserLoginInfo(String username, String password) throws SQLException {
+		return new UserDAO(conn).getUserLoginInfo(username, password);
+	}
+
 	public List<String> getTypes() throws SQLException {
-		Connection conn = ServiceLocator.getERSDatabase().getConnection();
-		conn.close();
 		return new ReimbursementDAO(conn).getTypes();
 	}
-
-	/**
-	 * Insert new Reimbursement
-	 * @param reimb
-	 * @throws SQLException
-	 */
+	
+	public List<String> getStatus() throws SQLException {
+		return new ReimbursementDAO(conn).getStatus();
+	}
+	
+	public List<Reimbursement> getReimbForAuthor(User user) throws SQLException {
+		ReimbursementDAO dao = new ReimbursementDAO(conn);
+		List<Reimbursement> list = dao.getReimbByUser(user);
+		if(list!=null){
+			return list;
+		}
+		return null;
+	}//TODO test
+	public List<Reimbursement> getReimbForResolver(User user) throws SQLException {
+		ReimbursementDAO dao = new ReimbursementDAO(conn);
+		List<Reimbursement> list = dao.getReimbByUser(user);
+		if(list!=null){
+			return list;
+		}
+		return null;
+	}//TODO test
+	
 	public void insertReimbursement(Reimbursement reimb) throws SQLException{
-		Connection conn = ServiceLocator.getERSDatabase().getConnection();
 		ReimbursementDAO dao = new ReimbursementDAO(conn);
 		dao.insert(reimb);
-		conn.close();
 	}
 
 	public void updateReimbursement(Reimbursement reimb) throws SQLException {
-		Connection conn = ServiceLocator.getERSDatabase().getConnection();
 		ReimbursementDAO dao = new ReimbursementDAO(conn);
 		dao.update(reimb);
-		conn.close();
 	}
-	
+
 }

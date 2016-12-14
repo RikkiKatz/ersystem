@@ -15,15 +15,15 @@ public class Example {
 		Connection conn = ServiceLocator.getERSDatabase().getConnection();
 		
 		ReimbursementDAO reimbDao = new ReimbursementDAO(conn);
-		UserDAO user = new UserDAO(conn);
-		user.getById(1);
+		//UserDAO user = new UserDAO(conn);
+		//user.getById(1);
 		
 		
 		//Reimbursement reimb = new Reimbursement(5, 100.00,null,null,null,,null,null,null);
 		//reimbDao.insert(reimb);
 		
 
-		//reimbDao.getTypes();
+		reimbDao.getStatus();
 		
 		conn.close();
 		System.out.println("Finished");

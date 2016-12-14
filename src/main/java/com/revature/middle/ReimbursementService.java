@@ -16,6 +16,10 @@ public class ReimbursementService {
 	public List<String> getTypes() throws SQLException {
 		return new DataFacade().getTypes();
 	}
+	
+	public List<String> getStatus() throws SQLException {
+		return new DataFacade().getStatus();
+	}
 
 	public void updateReimbursement (Reimbursement reimb) throws SQLException {
 		new DataFacade().updateReimbursement(reimb);

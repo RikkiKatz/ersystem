@@ -85,7 +85,7 @@ public class ReimbursementDAO {
 	}// getAll
 
 	//getReimbbyUser
-	public List<Reimbursement> getReimbByUser() throws SQLException {
+	public List<Reimbursement> getReimbByUser(User user) throws SQLException {
 		List<Reimbursement> results = new ArrayList<Reimbursement>();
 		String sql = "select ers_reimbursement.reimb_id"
 				+ " from ers_reimbursement reimb"
@@ -95,7 +95,7 @@ public class ReimbursementDAO {
 		ResultSet rs = stmt.executeQuery();
 		mapRows(rs, results);
 		return results;
-	}
+	}//TODO update sql
 	
 	
 	/**
@@ -117,7 +117,7 @@ public class ReimbursementDAO {
 		mapRows(rs, results);
 		return results;
 	}//getReimbByStatus
-		
+	
 	/**
 	 * Store Reimbursement types in a list
 	 * @return
@@ -150,8 +150,25 @@ public class ReimbursementDAO {
 		while(rs.next()){
 			results.add(rs.getString("reimb_status"));
 		}
+		System.out.println(results);
 		return results;
 	}//getStatus
+	
+	/**		
+	public String getStatus(int id) throws SQLException{
+		String sql = "select reimb_status"
+				+ " from ers_reimbursement_status"
+				+ " where reimb_status_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, id);
+		ResultSet rs = stmt.executeQuery();
+		String status = null;
+		if (rs.next()) {
+			  status = rs.getString("REIMB_STATUS"); 
+		}
+		return status;
+	}
+	**/
 	
 	/**
 	 * Helper method

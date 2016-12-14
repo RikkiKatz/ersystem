@@ -1,7 +1,6 @@
 package com.revature.web;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,25 +17,18 @@ public class DispatcherServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestURI = request.getRequestURI();
 		switch(requestURI){
-			case "/ers/employees.do":{
-				try {
-					new EmployeeController().doAll(request, response);
-				} catch (com.bea.common.security.xacml.IOException e) {
-					e.printStackTrace();
-				}
+			case "/ers/login.do" : {
+				new LoginController().login(request, response);
 				break;
 			}case "/ers/newRequest.do":{
-				try {
-					new ReimbController().insertReimbursement(request, response);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				new ReimbController().getTypes(request, response);
+				break;
+			}case "/ers/managerHome.do":{
+				new ReimbController().getStatus(request, response);
+				break;
 			}default:{
 				response.setStatus(404);
 			}
-			
 		}
 	}
 	

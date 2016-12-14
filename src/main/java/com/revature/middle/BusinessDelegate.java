@@ -9,16 +9,16 @@ import com.revature.beans.Reimbursement;
 import com.revature.beans.User;
 /**
  * Delegate- handles interactions between Controller & Service
- * methods: login(), insertReimbursement(), getTypes()
+ * methods: login(), insertReimbursement(), getTypes(), getStatus()
  * @author Rikki
  *
  */
 public class BusinessDelegate {
 
-	public User login(String user, String pass) throws SQLException, AuthenticationException{
-		return new UserService().authenticate(user, pass);
+	public User login(String username, String password) throws SQLException, AuthenticationException{
+		return new UserService().authenticate(username, password);
 	}
-	
+
 	public void insertReimbursement(Reimbursement reimb) throws SQLException {
 		new ReimbursementService().insertReimbursement(reimb);
 	}
@@ -26,4 +26,9 @@ public class BusinessDelegate {
 	public List<String> getTypes() throws SQLException {
 		return new ReimbursementService().getTypes();
 	}
+	
+	public List<String> getStatus() throws SQLException {
+		return new ReimbursementService().getStatus();
+	}
+
 }

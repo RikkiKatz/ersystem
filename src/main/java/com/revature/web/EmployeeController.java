@@ -13,10 +13,15 @@ import com.revature.middle.BusinessDelegate;
 public class EmployeeController {
 
 	public void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, java.io.IOException {
-		// call services to grab data, put the data into a scope
-		//User user = BusinessDelegate(request);
-		//request.setAttribute("user", user);
+/**		// call services to grab data, put the data into a scope
+		User user = BusinessDelegate.login(request);
+		request.setAttribute("user", user);
 		request.getRequestDispatcher("/login.jsp").forward(request, response);
+**/	}
+
+	public void doAll(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

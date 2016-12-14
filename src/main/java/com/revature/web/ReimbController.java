@@ -28,11 +28,16 @@ public class ReimbController {
 		}
 	}
 	
-/**		public void getStatus(HttpServletRequest request, HttpServletResponse response){
-		List<String> reimb = new BusinessDelegate().getStatus();
-		request.setAttribute("status", reimb);
+	public void getStatus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		try {
+			List<String> reimb = new BusinessDelegate().getStatus();
+			request.setAttribute("status", reimb);
+			request.getRequestDispatcher("managerHome.jsp").forward(request, response);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-**/
+
 	public void insertReimbursement(HttpServletRequest request, HttpServletResponse response) throws SQLException{
 		Reimbursement reimb = new Reimbursement();
 		new BusinessDelegate().insertReimbursement(reimb);
@@ -49,4 +54,5 @@ public class ReimbController {
 	//	new BusinessDelegate().updateReimbursement(reimb);
 		
 	}
+
 }

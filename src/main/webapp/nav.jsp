@@ -14,6 +14,11 @@
 				<li><a href="empHome.jsp" class="active">Home</a></li>
 				<li><a href="newRequest.do">New Request</a></li>
 			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#">Pending</a></li>
+				<li><a href="#">Approved</a></li>
+				<li><a href="#">Denied</a></li>
+			</ul>
 		</div>
 		<!--/.nav-collapse -->
 	</div>
