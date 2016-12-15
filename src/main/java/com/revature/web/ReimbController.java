@@ -37,22 +37,26 @@ public class ReimbController {
 			e.printStackTrace();
 		}
 	}
-
-	public void insertReimbursement(HttpServletRequest request, HttpServletResponse response) throws SQLException{
-		Reimbursement reimb = new Reimbursement();
-		new BusinessDelegate().insertReimbursement(reimb);
+//TODO: finish
+	public void insertReimbursement(HttpServletRequest request, HttpServletResponse response){
+/**		Reimbursement reimb = new Reimbursement();
 		try {
+			new BusinessDelegate().insertReimbursement(reimb);
 			response.sendRedirect("empHome.jsp");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-	}
+**/	}
 	
 	public void updateReimbursement(HttpServletRequest request, HttpServletResponse response) throws SQLException{
 		Reimbursement reimb = new Reimbursement();
 	//	reimb.setResolver_id()
 	//	new BusinessDelegate().updateReimbursement(reimb);
 		
+	}
+	
+	public void getReimbByAuthor(Reimbursement reimb) {
+		//TODO
 	}
 
 }

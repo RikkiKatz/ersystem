@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.naming.AuthenticationException;
 
+import com.revature.beans.ReimbStatus;
+import com.revature.beans.ReimbType;
 import com.revature.beans.Reimbursement;
 import com.revature.beans.User;
 /**
@@ -19,8 +21,13 @@ public class BusinessDelegate {
 		return new UserService().authenticate(username, password);
 	}
 
-	public void insertReimbursement(Reimbursement reimb) throws SQLException {
-		new ReimbursementService().insertReimbursement(reimb);
+	public Reimbursement insertReimbursement(User user, double amount, ReimbType type, ReimbStatus status, String description) 
+				throws SQLException {
+		return new ReimbursementService().insertReimbursement(user, amount, type, status, description);
+	}
+	
+	public void getReimbByAuthor(Reimbursement reimb) throws SQLException {
+		new ReimbursementService().getReimbByAuthor(reimb);
 	}
 
 	public List<String> getTypes() throws SQLException {

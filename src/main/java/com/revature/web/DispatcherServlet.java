@@ -22,6 +22,7 @@ public class DispatcherServlet extends HttpServlet{
 				break;
 			}case "/ers/newRequest.do":{
 				new ReimbController().getTypes(request, response);
+				new ReimbController().insertReimbursement(request, response);
 				break;
 			}case "/ers/managerHome.do":{
 				new ReimbController().getStatus(request, response);

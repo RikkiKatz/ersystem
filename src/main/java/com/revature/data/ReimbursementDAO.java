@@ -29,34 +29,29 @@ public class ReimbursementDAO {
 		super();
 		this.conn = conn;
 	}
-	
-	/**
-	 * Insert a reimbursement record
-	 * @param reimb
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
-	public void insert(Reimbursement reimb) throws SQLException {	
-		String sql = "INSERT INTO ERS_REIMBURSEMENT VALUES(?,?,?,?,?,?,?,?,?)";
+
+	public Reimbursement insert(User author, double amount, ReimbType type, ReimbStatus status, String description) 
+			throws SQLException {	
+		String sql = "INSERT INTO"
+				+ " ERS_REIMBURSEMENT(REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_DESCRIPTION,"
+				+ " REIMB_AUTHOR, REIMB_STATUS_ID, REIMB_TYPE_ID) "
+				+ " VALUES(?, ?, ?, ?, ?, ?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, reimb.getReimb_id());
-		stmt.setDouble(2, reimb.getAmount());
-		stmt.setTimestamp(3, new Timestamp(new Date().getTime()));
-		stmt.setString(4, null);
-		stmt.setString(5, reimb.getDescription());
-		stmt.setInt(6, reimb.getAuthor_id().getUser_id());
-		stmt.setInt(7, 0);
-		stmt.setInt(8, reimb.getStatus_id().status_id);
-		stmt.setInt(9, reimb.getType_id().type_id);
-		stmt.executeUpdate();
-	}//insert
-	
-	/**
-	 * Update a Reimbursement status
-	 * @param reimb
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		stmt.setDouble(1, amount);
+		stmt.setTimestamp(2, ts);
+		stmt.setString(3, description);
+		stmt.setInt(4, author.getUser_id());
+		stmt.setInt(5, status.getStatus_id());
+		stmt.setInt(6, type.getType_id());
+		
+		stmt.executeQuery();
+		ResultSet rs = stmt.getGeneratedKeys();
+		rs.next();
+		int pk = rs.getInt(1);
+		return new Reimbursement(pk, amount, ts, null, description, author, null, status, type);
+	}
+
 	public void update(Reimbursement reimb) throws SQLException {	
 		String sql = "UPDATE REIMBURSMENT"
 					+ " SET REIMB_STATUS_ID = ?, REIMB_RESOLVED = ?, REIMB_RESOLVER = ?"
@@ -67,25 +62,21 @@ public class ReimbursementDAO {
 		stmt.setInt(3, reimb.getReimb_id());
 		stmt.setInt(4, reimb.getReimb_id());
 		stmt.executeUpdate();
-	}//update
-	
-	/**
-	 * Get all Reimbursements from the DB
-	 * @return
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
+	}
+
 	public List<Reimbursement> getAll() throws SQLException {
 		List<Reimbursement> results = new ArrayList<>();
-		String sql = "SELECT * FROM ERS_REIMBURSEMENT";
+		String sql = "select reimb_id, reimb_amount, reimb_submitted,"
+				+ " reimb_resolved, reimb_decription, reimb_receipt,"
+				+ " reimb_author, reimb_resolver, reimb_status_id, reimb_type_id"
+				+ " from ers_reimbursement";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		mapRows(rs, results);
 		return results;
-	}// getAll
+	}
 
-	//getReimbbyUser
-	public List<Reimbursement> getReimbByUser(User user) throws SQLException {
+	public List<Reimbursement> getReimbByAuthor(Reimbursement reimb) throws SQLException {
 		List<Reimbursement> results = new ArrayList<Reimbursement>();
 		String sql = "select ers_reimbursement.reimb_id"
 				+ " from ers_reimbursement reimb"
@@ -97,14 +88,6 @@ public class ReimbursementDAO {
 		return results;
 	}//TODO update sql
 	
-	
-	/**
-	 * Get List of Reimbursement IDs by Status Name
-	 * @param reimb_status
-	 * @return
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
 	public List<Reimbursement> getReimbByStatus(String reimb_status) throws SQLException {
 		List<Reimbursement> results = new ArrayList<>();
 		String sql = "select ers_reimbursement.reimb_status_id"
@@ -116,13 +99,8 @@ public class ReimbursementDAO {
 		ResultSet rs = stmt.executeQuery();
 		mapRows(rs, results);
 		return results;
-	}//getReimbByStatus
-	
-	/**
-	 * Store Reimbursement types in a list
-	 * @return
-	 * @throws SQLException
-	 */
+	}
+
 	public List<String> getTypes() throws SQLException{
 		List<String> results = new ArrayList<>();
 		String sql= "SELECT REIMB_TYPE"
@@ -134,13 +112,8 @@ public class ReimbursementDAO {
 		}
 		System.out.println(results);
 		return results;
-	}//getTypes
+	}
 
-	/**
-	 * Store Reimbursement statuses in a list
-	 * @return
-	 * @throws SQLException
-	 */
 	public List<String> getStatus() throws SQLException {
 		List<String> results = new ArrayList<String>();
 		String sql="SELECT REIMB_STATUS"
@@ -152,8 +125,8 @@ public class ReimbursementDAO {
 		}
 		System.out.println(results);
 		return results;
-	}//getStatus
-	
+	}
+
 	/**		
 	public String getStatus(int id) throws SQLException{
 		String sql = "select reimb_status"
@@ -192,7 +165,7 @@ public class ReimbursementDAO {
 			results.add(obj);
 			System.out.println(obj);
 		}
-	}// mapRows
+	}
 	
 	/**
 	 * Delete a reimbursement record

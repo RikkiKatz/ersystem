@@ -32,7 +32,7 @@
 	<%@ include file="nav.jsp" %>
 	<div class="col-lg-8 col-lg-offset-2">
 		<div class="employee-table-title">
-			<h2>Submit New Reimbursement Request</h2>
+			<h2>New Reimbursement Request</h2>
 		</div>
 	
 		<form id= "newRequestForm" action="newRequest.do" method="post">

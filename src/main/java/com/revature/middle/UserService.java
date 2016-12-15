@@ -13,13 +13,17 @@ public class UserService {
 
 	public User authenticate(String username, String password) throws AuthenticationException, SQLException {
 		DataFacade dataTier = new DataFacade();
-		User user = dataTier.getUserLoginInfo(username, password);
-	
-		if(user == null || ! BCrypt.checkpw(password, user.getPassword())){
-			throw new AuthenticationException("Unable to sign in.");
-			// redirect to login page
-		}
+		User user = dataTier.getUserLoginInfo(username);
+		String hashedPassword = user.getPassword();
 		
+		if(user == null || ! BCrypt.checkpw(password, hashedPassword)){
+	//		request.setAttribute("error","Invalid Username or Password");
+	//		RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");            
+	//		rd.include(request, response);
+			throw new AuthenticationException("Unable to sign in.");
+		}
+
+		System.out.println(username+ " " +user.getPassword());
 		user.setPassword(null);
 		return user;
 	}

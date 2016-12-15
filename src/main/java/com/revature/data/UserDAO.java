@@ -65,14 +65,13 @@ public class UserDAO {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public User getUserLoginInfo(String username, String password) throws SQLException {
+	public User getUserLoginInfo(String username) throws SQLException {
 		// construct SQL query
 		String sql = "SELECT *"
 				+ " FROM ERS_USERS"
-				+ " WHERE ERS_USERNAME = ? AND ERS_PASSWORD = ?";
+				+ " WHERE ERS_USERNAME = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, username);
-		stmt.setString(2, password);
 			
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {

@@ -1,15 +1,14 @@
 package com.revature.web;
 
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.revature.beans.User;
-import com.revature.data.DataFacade;
-import com.revature.beans.Reimbursement;
 import com.revature.middle.BusinessDelegate;
 
 public class LoginController {
@@ -42,6 +41,8 @@ public class LoginController {
 				//request.getRequestDispatcher("managerHome.jsp").forward(request, response);
 				response.sendRedirect("managerHome.jsp");
 				session=request.getSession();			
+			}else {
+				response.sendRedirect("login.jsp");
 			}
 			session.setAttribute("username", username);
 			session.setAttribute("password", password);
