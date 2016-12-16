@@ -58,13 +58,6 @@ public class UserDAO {
 		
 	}// mapRows
 
-	/**
-	 * Get user's full name from DB with a matching username
-	 * @param username
-	 * @return
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
 	public User getUserLoginInfo(String username) throws SQLException {
 		// construct SQL query
 		String sql = "SELECT *"
@@ -89,12 +82,36 @@ public class UserDAO {
 					  rs.getString("USER_LAST_NAME"),
 					  rs.getString("USER_EMAIL"),
 					  role);
-			System.out.println("User Created: " + user.getUser_id());
+			System.out.println("Get user login infor for user ID: " + user.getUser_id());
+			System.out.println(user);
 			return user;			
 		}
 		return null;
-	}// getByUsername
-
+	}
+	
+	User setUser(ResultSet rs, boolean isAuthor) throws SQLException{
+		int id;
+		String username, password, lastName, firstName, email;
+		if(isAuthor){
+			id = rs.getInt("ERS_USERS_ID");
+			username = rs.getString("ERS_USERNAME");
+			password = rs.getString("ERS_PASSWORD");
+			lastName = rs.getString("USER_LAST_NAME");
+			firstName = rs.getString("USER_FIRST_NAME");
+			email = rs.getString("USER_EMAIL");
+		}else{
+			if(rs.getString("RESOLVER_USERNAME") == null)
+				return null;
+			id = rs.getInt("RESOLVER_USERS_ID");
+			username = rs.getString("RESOLVER_USERNAME");
+			password = rs.getString("RESOLVER_ERS_PASSWORD");
+			lastName = rs.getString("RESOLVER_LAST_NAME");
+			firstName = rs.getString("RESOLVER_FIRST_NAME");
+			email = rs.getString("RESOLVER_EMAIL");
+		}
+		return new User(id, username, password, firstName, lastName, email, null);
+	}
+	
 	/**
 	 * Get user's full name from DB with a matching ID
 	 * @param user_id
@@ -103,50 +120,26 @@ public class UserDAO {
 	 * @throws ClassNotFoundException
 	 */
 	public String getById(int id) throws SQLException {
-		User user = new User();
 		String firstName = null;
 		String lastName = null;
 
 		// construct SQL query
 		String sql = "SELECT USER_FIRST_NAME, USER_LAST_NAME"
 				+ " FROM ERS_USERS"
-				+ " WHERE ERS_USERNAME = ?";
+				+ " WHERE ERS_USERS_ID = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
 		stmt.setInt(1, id);
 		ResultSet rs = stmt.executeQuery();		
-		if (rs.next()) {
+		while (rs.next()) {
 				firstName = rs.getString("USER_FIRST_NAME");
 				lastName = rs.getString("USER_LAST_NAME");
-		}
-		return firstName + " " + lastName;
-
-	}
-		
-	public User getByLoginInfo(String username, String password) throws SQLException {	
-		String sql = "SELECT * "
-				+ " FROM ERS_USERS"
-				+ " WHERE ERS_USERNAME = ?"
-				+ " AND ERS_PASSWORD = ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, username);
-		stmt.setString(1, password);
-		ResultSet rs = stmt.executeQuery();
-		
-		if(rs.next()){
-			UserRole role = new UserRole(2,"Employee");
-			User user = new User(rs.getInt("ERS_USERS_ID"),
-					  rs.getString("ERS_USERNAME"),
-					  rs.getString("ERS_PASSWORD"),
-					  rs.getString("USER_FIRST_NAME"),
-					  rs.getString("USER_LAST_NAME"),
-					  rs.getString("USER_EMAIL"),
-					  role);
-			System.out.println("User Created: " +user.getUser_id());
-			return user;
+				System.out.println("User Full Name: " + firstName+ " " +lastName + " for User ID: " + id);
+				return firstName + " " + lastName;
 		}
 		return null;
 	}
+	
 	
 	/**
 	 * Helper method to get a single user
@@ -176,5 +169,49 @@ public class UserDAO {
 		}
 		
 	}// mapRow
+	
+	/**
 
+	public User getUserByLoginInfo(String username, String password) throws SQLException {
+		User user=null;
+		// construct SQL query
+		String sql = "SELECT *"
+				+ " FROM ers_users u"
+					+ " INNER JOIN ers_user_roles r"
+					+ " ON r.ers_user_role_id = u.user_role_id"
+				+ " WHERE ers_username = ?"
+				+ " AND ers_password =  ?";
+		try{
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, username);
+			stmt.setString(2, password);
+			System.out.println(username +" reached before execute query");
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("Reached after execute stmt.");
+			user = constructUser(rs);
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		System.out.println("User: " + user);
+		return user;
+
+	}// getByUsername
+
+	private User constructUser(ResultSet rs) throws SQLException{
+		if(rs.next()){
+			int id = rs.getInt("ERS_USERS_ID");
+			String username = rs.getString("ERS_USERNAME");
+			String password = rs.getString("ERS_PASSWORD");
+			String lastName = rs.getString("USER_LAST_NAME");
+			String firstName = rs.getString("USER_FIRST_NAME");
+			String email = rs.getString("USER_EMAIL");
+			UserRole role = new UserRole(rs.getInt("ERS_USER_ROLE_ID"), rs.getString("USER_ROLE"));
+
+			System.out.println("Get user where ID is: " +id+ " for Username: " + username);
+			
+			return new User(id, username, password, firstName, lastName, email, role);	
+		}
+		return null;
+	}
+	**/
 }

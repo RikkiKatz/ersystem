@@ -20,12 +20,14 @@ public class DispatcherServlet extends HttpServlet{
 			case "/ers/login.do" : {
 				new LoginController().login(request, response);
 				break;
+			}case "/ers/insert.do":{
+				new ReimbController().insertReimb(request, response);
+				break;
 			}case "/ers/newRequest.do":{
 				new ReimbController().getTypes(request, response);
-				new ReimbController().insertReimbursement(request, response);
 				break;
-			}case "/ers/managerHome.do":{
-				new ReimbController().getStatus(request, response);
+			}case"/ers/logout.do": {
+				new LoginController().logout(request, response);
 				break;
 			}default:{
 				response.setStatus(404);

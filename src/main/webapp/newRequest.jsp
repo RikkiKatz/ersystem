@@ -7,6 +7,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <title>Submit New Expense Reimbursement Request</title>
+<!-- Latest compiled and minified jQuery -->
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+	
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -18,13 +30,6 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
 	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
 	crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous"></script>
-
 <!-- Personalized Style Sheet -->
 <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
@@ -35,33 +40,35 @@
 			<h2>New Reimbursement Request</h2>
 		</div>
 	
-		<form id= "newRequestForm" action="newRequest.do" method="post">
+		<form id= "newRequestForm" action="insert.do" method="post">
 			<div class="form-group form-inline">
-				<select class="form-control" placeholder="type">
+				<select name="type" class="form-control" placeholder="type" required>
 					<option value="" disabled selected>Type</option>
-					<c:forEach var="variable" items="${types}">
-						<option><c:out value="${variable}"></c:out></option>
+					<c:forEach var="type" items="${types}">
+						<option value="${type.type_id}">
+							<c:out value="${type.type}" />
+						</option>
 					</c:forEach>
 				</select>
 			</div>
 			
 			<div class="form-group form-inline">
-				<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+				<label class="sr-only" for="inputAmount">Amount (in dollars)</label>
 				<div class="input-group">
 					<div class="input-group-addon">$</div>
-					<input type="text" class="form-control" placeholder="Amount">
+					<input name= "amount" min="0" type="number" class="form-control" placeholder="Amount" required>
 				</div>
 			</div>
 			<div class = "row">
 				<div class="form-group col-md-6 col-sm-6">
 					<label>Enter Description</label> 
-					<textarea class="form-control" form = "newRequestForm" rows="6">
+					<textarea name="description" class="form-control" form = "newRequestForm" rows="6">
 					</textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label>Upload Receipt</label> 
-				<input type="file" id="receipt">
+				<input name="receipt" type="file" id="receipt">
 			</div>
 			<input type="submit" class="btn btn-primary" value="Submit" />
 		</form>

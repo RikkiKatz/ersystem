@@ -15,53 +15,41 @@ import com.revature.ers.ServiceLocator;
  *
  */
 public class DataFacade {
-
-	Connection conn;
 	
-	public  DataFacade() throws SQLException {
-		conn = ServiceLocator.getERSDatabase().getConnection();
+	private static Connection getConnection() throws SQLException {
+		Connection conn = ServiceLocator.getERSDatabase().getConnection();
 		conn.setAutoCommit(false);
+		return conn;
 	}
 
-	public User createUser(String username, String password) throws SQLException {
-		return new UserDAO(conn).getByLoginInfo(username, password);
-	}
-	
 	public User getUserLoginInfo(String username) throws SQLException {
-		return new UserDAO(conn).getUserLoginInfo(username);
+		Connection conn = getConnection();
+		User user = new UserDAO(conn).getUserLoginInfo(username);
+		conn.close();
+		return user;
 	}
 
-	public List<String> getTypes() throws SQLException {
-		return new ReimbursementDAO(conn).getTypes();
+	public List<ReimbType> getTypes() throws SQLException {
+		Connection conn = getConnection();
+		List<ReimbType> list = new ReimbursementDAO(conn).getTypes();
+		conn.close();
+		return list;
 	}
 	
-	public List<String> getStatus() throws SQLException {
-		return new ReimbursementDAO(conn).getStatus();
+	public List<ReimbStatus> getStatus() throws SQLException {
+		Connection conn = getConnection();
+		List<ReimbStatus> list = new ReimbursementDAO(conn).getStatus();
+		conn.close();
+		return list;
 	}
-	
-	public List<Reimbursement> getReimbByAuthor(Reimbursement reimb) throws SQLException {
-		ReimbursementDAO dao = new ReimbursementDAO(conn);
-		List<Reimbursement> list = dao.getReimbByAuthor(reimb);
-		if(list!=null){
-			return list;
-		}
-		return null;
-	}
-/**
-	public List<Reimbursement> getReimbForResolver(User user) throws SQLException {
-		ReimbursementDAO dao = new ReimbursementDAO(conn);
-		List<Reimbursement> list = dao.getReimbByUser(user);
-		if(list!=null){
-			return list;
-		}
-		return null;
-	}
-**/	
-	public Reimbursement insertReimbursement(User author, double amount, 
+
+	public Reimbursement insertReimb(User author, double amount, 
 					ReimbType type,ReimbStatus status, String description){
+		Connection conn = null;
 		try {
+			conn = getConnection();
 			ReimbursementDAO dao = new ReimbursementDAO(conn);
-			Reimbursement reimb = dao.insert(author, amount, type, status, description);
+			Reimbursement reimb = dao.insertReimb(author, amount, type, status, description);
 			conn.commit();
 			return reimb;
 		} catch (SQLException e) {
@@ -71,13 +59,80 @@ public class DataFacade {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
 
 	public void updateReimbursement(Reimbursement reimb) throws SQLException {
-		ReimbursementDAO dao = new ReimbursementDAO(conn);
-		dao.update(reimb);
+		Connection conn = null;
+		try{	
+			conn = getConnection();
+			ReimbursementDAO dao = new ReimbursementDAO(conn);
+			dao.update(reimb);
+			conn.commit();
+		}catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
+	public static List<Reimbursement> getAllReimbs() throws Exception{
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			ReimbursementDAO reimbDao = new ReimbursementDAO(conn);
+			List<Reimbursement> list = reimbDao.getAllReimbs();
+			conn.close();
+			return list;
+		}catch(SQLException e){
+			e.printStackTrace();
+			throw new Exception();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static List<Reimbursement> getReimbByAuthor(int author_id) throws Exception{
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			ReimbursementDAO reimbDao = new ReimbursementDAO(conn);
+			List<Reimbursement> list = reimbDao.getReimbByAuthor(author_id);
+			conn.close();
+			return list;
+		}catch(SQLException e){
+			e.printStackTrace();
+			throw new Exception();			
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }

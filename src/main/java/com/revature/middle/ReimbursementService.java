@@ -16,11 +16,11 @@ import com.revature.data.DataFacade;
  */
 public class ReimbursementService {
 	
-	public List<String> getTypes() throws SQLException {
+	public List<ReimbType> getTypes() throws SQLException {
 		return new DataFacade().getTypes();
 	}
 	
-	public List<String> getStatus() throws SQLException {
+	public List<ReimbStatus> getStatus() throws SQLException {
 		return new DataFacade().getStatus();
 	}
 
@@ -28,13 +28,31 @@ public class ReimbursementService {
 		new DataFacade().updateReimbursement(reimb);
 	}
 	
-	public Reimbursement insertReimbursement(User author, double amount, 
+	public Reimbursement insertReimb(User author, double amount, 
 			ReimbType type,ReimbStatus status, String description) throws SQLException{
-		return new DataFacade().insertReimbursement(author, amount, type, status, description);
+		return new DataFacade().insertReimb(author, amount, type, status, description);
 	}	
-	
-	public void getReimbByAuthor(Reimbursement reimb) throws SQLException {
-		new DataFacade().getReimbByAuthor(reimb);
+
+	/**
+	 * Get Reimbursements for Users- 
+	 * if manager, getAllReimbs()
+	 * if not, getAuthorReimbs()
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Reimbursement> getReimbs(User user) throws Exception {
+		if(user.getRole_id().getUser_role().equals("Manager"))
+			return getAllReimbs();
+		return getAuthorReimbs(user.getUser_id());
+	}
+		
+	private List<Reimbursement> getAllReimbs() throws Exception{
+		return  DataFacade.getAllReimbs();
+	}
+
+	private List<Reimbursement> getAuthorReimbs(int author_id) throws Exception{
+		return DataFacade.getReimbByAuthor(author_id);
 	}
 
 }

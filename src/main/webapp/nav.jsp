@@ -13,6 +13,7 @@
 				<li><a href="#">Pending</a></li>
 				<li><a href="#">Approved</a></li>
 				<li><a href="#">Denied</a></li>
+				<li><a href="logout.do">Logout</a>
 			</ul>
 		</div>
 		<!--/.nav-collapse -->

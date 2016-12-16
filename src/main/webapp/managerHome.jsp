@@ -5,15 +5,29 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Employee Home Page</title>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"	crossorigin="anonymous">
-<!-- Optional theme -->
-<link rel="stylesheet"	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"	crossorigin="anonymous">
+<!-- Latest compiled and minified jQuery -->
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  
 <!-- Latest compiled and minified JavaScript -->
-<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"	crossorigin="anonymous"></script>
-<!-- JQuery -->
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/js/umd/dropdown.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+	
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
 <!-- Personalized Style Sheet -->
 <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
@@ -38,7 +52,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="reimb" items="${reimb}">
+					<c:forEach var="reimb" items="${reimbs}">
 		            	<tr>
 			                <td>	<c:out value="${reimb.date_submitted}">			</c:out>	</td>
 							<td>	<c:out value="${reimb.author_id.fullName}">		</c:out>	</td>
@@ -57,6 +71,15 @@
 							<td>	<c:out value="${reimb.date_resolved}">			</c:out>	</td>
 			        	</tr>
 			        </c:forEach>
+			        	<tr>
+							<td>December 15, 2016</td>
+							<td>Jane Doe</td>
+							<td>Food</td>
+							<td>Pizza</td>
+							<td>5.00</td>
+							<td>Pending</td>
+							<td>Date Resolved</td>
+						</tr>
 				</tbody>
 			</table>
 		</div>

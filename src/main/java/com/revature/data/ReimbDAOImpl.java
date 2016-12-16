@@ -1,0 +1,50 @@
+package com.revature.data;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.revature.beans.ReimbType;
+import com.revature.beans.Reimbursement;
+import com.revature.beans.User;
+import com.revature.ers.ServiceLocator;
+/**
+ * Test ReimbursementDAO methods
+ * @author Rikki
+ *
+ */
+public class ReimbDAOImpl {
+	
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		// get connection
+		Connection conn = ServiceLocator.getERSDatabase().getConnection();
+		
+		// Test ReimbursementDAO
+		ReimbursementDAO reimbDao = new ReimbursementDAO(conn);
+		
+		/* Insert new Reimbursement
+		Reimbursement reimb = new Reimbursement(5, 100.00,null,null,null,,null,null,null);
+		*/
+		//Reimbursement reimb = new Reimbursement(2, 5, null, null,null,null,null,null,null);
+		UserDAO userDao = new UserDAO(conn);
+		User user= new User();
+		user = userDao.getUserLoginInfo("jane");
+		
+		ReimbType type = new ReimbType();
+		
+		//reimbDao.insertReimb(user, 5.0, 3, 1, "pizza");
+		
+		
+		//reimbDao.getAllReimbs();
+		//reimbDao.getReimbByAuthor(1);
+		//reimbDao.getReimbByStatus("Approved");
+		
+		// Test that statuses and types are being retrieved from the database
+		reimbDao.getStatus();
+		reimbDao.getTypes();
+	
+
+		//Close connection, check that entire main method runs
+		conn.close();
+		System.out.println("Finished");
+	}
+}

@@ -21,20 +21,20 @@ public class BusinessDelegate {
 		return new UserService().authenticate(username, password);
 	}
 
-	public Reimbursement insertReimbursement(User user, double amount, ReimbType type, ReimbStatus status, String description) 
-				throws SQLException {
-		return new ReimbursementService().insertReimbursement(user, amount, type, status, description);
+	public static Reimbursement insertReimb(User user, double amount, 
+			ReimbType type, ReimbStatus status, String description) throws SQLException {
+		return new ReimbursementService().insertReimb(user, amount, type, status, description);
 	}
 	
-	public void getReimbByAuthor(Reimbursement reimb) throws SQLException {
-		new ReimbursementService().getReimbByAuthor(reimb);
+	public static  List<Reimbursement> getReimbs(User user) throws Exception {
+		return new ReimbursementService().getReimbs(user);
 	}
 
-	public List<String> getTypes() throws SQLException {
+	public static List<ReimbType> getTypes() throws SQLException {
 		return new ReimbursementService().getTypes();
 	}
 	
-	public List<String> getStatus() throws SQLException {
+	public static List<ReimbStatus> getStatus() throws SQLException {
 		return new ReimbursementService().getStatus();
 	}
 

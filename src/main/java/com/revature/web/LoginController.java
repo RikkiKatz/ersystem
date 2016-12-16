@@ -1,6 +1,8 @@
 package com.revature.web;
 
 
+import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +29,7 @@ public class LoginController {
 		try{
 			user = delegate.login(username, password);
 			
-			System.out.println("reached" +user.getFirst_name());
+			System.out.println("Reached start of Login Controller: " +user.getFirst_name());
 					
 			if(user != null && user.getRole_id().getId()==2) {
 				//List<Reimbursement> reimb = new DataFacade().getReimbForAuthor(user);
@@ -46,10 +48,19 @@ public class LoginController {
 			}
 			session.setAttribute("username", username);
 			session.setAttribute("password", password);
+			session.setAttribute("user", user);
+			System.out.println("Login Controller: User: " + user);
 		}catch(Exception e) {
 			//request.setAttribute("authFailed", "try to login again");
 			//request.getRequestDispatcher("login.jsp").forward(request, response);
 			e.printStackTrace();
 		}
+	}
+	public void logout(HttpServletRequest req, HttpServletResponse resp) 
+			throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		session.invalidate();
+		System.out.println("User logged out.");
+		resp.sendRedirect("/ers/login.jsp");
 	}
 }
