@@ -3,6 +3,7 @@ package com.revature.data;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.revature.beans.ReimbStatus;
 import com.revature.beans.ReimbType;
 import com.revature.beans.Reimbursement;
 import com.revature.beans.User;
@@ -27,20 +28,23 @@ public class ReimbDAOImpl {
 		//Reimbursement reimb = new Reimbursement(2, 5, null, null,null,null,null,null,null);
 		UserDAO userDao = new UserDAO(conn);
 		User user= new User();
-		user = userDao.getUserLoginInfo("jane");
+		user = userDao.getUserLoginInfo("john");
+		System.out.println("ReimbDaoImpl: " + user.getUser_id());
 		
-		ReimbType type = new ReimbType();
+		ReimbType type = reimbDao.getTypeByID(1);
+		ReimbStatus status = reimbDao.getStatusByID(1);
 		
-		//reimbDao.insertReimb(user, 5.0, 3, 1, "pizza");
+		reimbDao.insertReimb(user, 10.0, type, status, "all the pizzas");
 		
 		
 		//reimbDao.getAllReimbs();
+		//System.out.println("All reimbs size: " +reimbDao.getAllReimbs().size());
 		//reimbDao.getReimbByAuthor(1);
 		//reimbDao.getReimbByStatus("Approved");
 		
 		// Test that statuses and types are being retrieved from the database
-		reimbDao.getStatus();
-		reimbDao.getTypes();
+		//reimbDao.getStatus();
+		//reimbDao.getTypes();
 	
 
 		//Close connection, check that entire main method runs

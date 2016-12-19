@@ -45,9 +45,9 @@ public class ReimbController {
 	}
 
 	public void insertReimb(HttpServletRequest req, HttpServletResponse resp){
-		System.out.println(req.getParameter("amount"));
-		System.out.println(req.getParameter("description"));
-		System.out.println(req.getParameter("type"));
+		System.out.println("ReimbContoller: insertReimb(): Got amount: " + req.getParameter("amount"));
+		System.out.println("ReimbContoller: insertReimb(): Got descr: " + req.getParameter("description"));
+		System.out.println("ReimbContoller: insertReimb(): Got type: " + req.getParameter("type"));
 		try{
 			HttpSession session = req.getSession();
 			
@@ -55,29 +55,29 @@ public class ReimbController {
 			List<ReimbStatus> statusList = (List<ReimbStatus>) session.getAttribute("status");
 					
 			double amount = Validation.validateAmount(req.getParameter("amount"));
-			System.out.println("Validated amount: " + amount);
+			System.out.println("ReimbContoller: insertReimb(): Validated amount: " + amount);
 			ReimbType type = Validation.validateType(typeList, req.getParameter("type"));
-			System.out.println("Validated Type: "+ type);
+			System.out.println("ReimbContoller: insertReimb(): Validated Type: "+ type);
 			ReimbStatus status = Validation.setReimbstatus(statusList, "Pending");
-			System.out.println("Validated Status: " + status);
-			System.out.println("Before user get session attr: " + session.getAttribute("user"));
+			System.out.println("ReimbContoller: insertReimb(): Validated Status: " + status);
+			System.out.println("ReimbContoller: insertReimb(): Before user get session attr: " + session.getAttribute("user"));
 			User user =(User) session.getAttribute("user");
-			System.out.println("User: " + user);
+			System.out.println("ReimbContoller: insertReimb(): get user seesion attribute for User: " + user);
 			String description = req.getParameter("description");
-			System.out.println("Descr: " + description);
+			System.out.println("ReimbContoller: insertReimb(): Get Descr: " + description);
 			
-			System.out.println("Reimb: " +user + " " + amount + " " + type + " " + status + " " + description);
+			System.out.println("ReimbContoller: insertReimb(): new Reimb info: " +user + " " + amount + " " + type + " " + status + " " + description);
 			
 			Reimbursement reimb = BusinessDelegate.insertReimb(user, amount, type, status, description);
-			System.out.println("Set reimb: " + reimb);
+			System.out.println("ReimbContoller: insertReimb(): after business delegate insert reimb(): " + reimb);
 			List<Reimbursement> list = (List<Reimbursement>) session.getAttribute("reimbs");
-			System.out.println(list);
+			System.out.println("ReimbContoller: insertReimb(): list of reimbursements:" + list);
 			list.add(reimb);
-			System.out.println("Added reimb: " + reimb);
+			System.out.println("ReimbContoller: insertReimb(): Added reimb: " + reimb);
 			session.setAttribute("reimbs", list);
 			String message = "Reimbursment created.";
 			req.setAttribute("successMessage", message);
-			System.out.println("Right before first forward.");
+			System.out.println("ReimbContoller: insertReimb(): Right before first forward.");
 			req.getRequestDispatcher("empHome.jsp").forward(req, resp);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -85,7 +85,7 @@ public class ReimbController {
 				String message = "Invalid input.";
 				req.setAttribute("errorMessage", message);
 				req.getRequestDispatcher("empHome.jsp").forward(req, resp);
-				System.out.println("Second forward.");
+				System.out.println("ReimbContoller: insertReimb(): Second forward.");
 			} catch (ServletException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -105,7 +105,7 @@ public class ReimbController {
 			System.out.println("---------------------------Do we get here: "+reimList);
 			if(session.getAttribute("types") == null){
 				// get session data
-				System.out.println("Grabbed Data and created Sessions.");
+				System.out.println("Created Sessions.");
 				List<ReimbType> typeList = BusinessDelegate.getTypes();
 				List<ReimbStatus> statusList = BusinessDelegate.getStatus();
 				// set session data

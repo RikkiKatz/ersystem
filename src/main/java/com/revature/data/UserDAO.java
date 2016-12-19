@@ -93,23 +93,25 @@ public class UserDAO {
 		int id;
 		String username, password, lastName, firstName, email;
 		if(isAuthor){
+			System.out.println("Do we get to setUser() is author?");
 			id = rs.getInt("ERS_USERS_ID");
 			username = rs.getString("ERS_USERNAME");
-			password = rs.getString("ERS_PASSWORD");
+			password = null;
 			lastName = rs.getString("USER_LAST_NAME");
 			firstName = rs.getString("USER_FIRST_NAME");
 			email = rs.getString("USER_EMAIL");
 		}else{
-			if(rs.getString("RESOLVER_USERNAME") == null)
-				return null;
-			id = rs.getInt("RESOLVER_USERS_ID");
-			username = rs.getString("RESOLVER_USERNAME");
-			password = rs.getString("RESOLVER_ERS_PASSWORD");
-			lastName = rs.getString("RESOLVER_LAST_NAME");
-			firstName = rs.getString("RESOLVER_FIRST_NAME");
-			email = rs.getString("RESOLVER_EMAIL");
+			System.out.println("Do we get to setUser() not author?");
+			id = rs.getInt("ERS_USERS_ID");
+			username = rs.getString("ERS_USERNAME");
+			password = null;
+			lastName = rs.getString("USER_LAST_NAME");
+			firstName = rs.getString("USER_FIRST_NAME");
+			email = rs.getString("USER_EMAIL");
 		}
-		return new User(id, username, password, firstName, lastName, email, null);
+		User user = new User(id, username, password, firstName, lastName, email, null);
+		System.out.println("setUser(): user: " +user);
+		return user;
 	}
 	
 	/**

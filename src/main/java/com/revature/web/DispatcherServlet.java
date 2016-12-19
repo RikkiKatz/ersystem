@@ -20,11 +20,11 @@ public class DispatcherServlet extends HttpServlet{
 			case "/ers/login.do" : {
 				new LoginController().login(request, response);
 				break;
-			}case "/ers/insert.do":{
-				new ReimbController().insertReimb(request, response);
-				break;
 			}case "/ers/newRequest.do":{
 				new ReimbController().getTypes(request, response);
+				break;
+			}case "/ers/insert.do":{
+				new ReimbController().insertReimb(request, response);
 				break;
 			}case"/ers/logout.do": {
 				new LoginController().logout(request, response);

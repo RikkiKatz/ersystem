@@ -27,14 +27,17 @@ public class Validation {
 	
 	public static ReimbType validateType(List<ReimbType> list, String typeSelected) throws Exception{
 		int typeId = 0;
+		String typeName=null;
 		for(ReimbType type: list){
 			System.out.println("Type:::: " + type.getType()+" Type select: "+typeSelected);
-			if(type.getType_id()==(Integer.parseInt(typeSelected)))
+			if(type.getType_id()==(Integer.parseInt(typeSelected))){
 				typeId = type.getType_id();
+				typeName = type.getType();
+			}
 		}
 		if(typeId == 0)
 			throw new Exception();
-		return new ReimbType(typeId, typeSelected);
+		return new ReimbType(typeId, typeName);
 	}
 	public static ReimbStatus setReimbstatus(List<ReimbStatus> list, String statusSelected) throws Exception{
 		System.out.println("Reached reimb status");

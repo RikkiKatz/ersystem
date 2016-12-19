@@ -2,7 +2,9 @@
 <nav class="navbar navbar-default">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="empHome.jsp">Expense Reimbursement</a>
+			<a class="navbar-brand" href="empHome.jsp">
+				Welcome <c:out value="${user.getFullName()}"/>!
+			</a>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">

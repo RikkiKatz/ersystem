@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import com.revature.beans.User;
 import com.revature.middle.BusinessDelegate;
 
@@ -29,38 +27,41 @@ public class LoginController {
 		try{
 			user = delegate.login(username, password);
 			
-			System.out.println("Reached start of Login Controller: " +user.getFirst_name());
+			System.out.println("Reached start of Login Controller for user: " +user.getFirst_name());
 					
 			if(user != null && user.getRole_id().getId()==2) {
 				//List<Reimbursement> reimb = new DataFacade().getReimbForAuthor(user);
 				//request.setAttribute("reimb", reimb);
 				//request.getRequestDispatcher("empHome.jsp").forward(request, response);
+				System.out.println("Login controller redirect for type: " + user.getRole_id().getUser_role());
 				response.sendRedirect("empHome.jsp");
 				session=request.getSession();			
 			}else if(user != null && user.getRole_id().getId()==1) {
 				//List<Reimbursement> reimb = new DataFacade().getReimbForResolver(user);
 				//request.setAttribute("resolverList", reimb);
 				//request.getRequestDispatcher("managerHome.jsp").forward(request, response);
+				System.out.println("Login controller redirect for type: " + user.getRole_id().getUser_role());
 				response.sendRedirect("managerHome.jsp");
-				session=request.getSession();			
-			}else {
-				response.sendRedirect("login.jsp");
+				session=request.getSession();		
 			}
 			session.setAttribute("username", username);
 			session.setAttribute("password", password);
 			session.setAttribute("user", user);
-			System.out.println("Login Controller: User: " + user);
+			System.out.println("Login Controller: successfuly got user session for User: " + user);
 		}catch(Exception e) {
-			//request.setAttribute("authFailed", "try to login again");
-			//request.getRequestDispatcher("login.jsp").forward(request, response);
+			request.setAttribute("authFailed", "try to login again");
+			System.out.println("Login Controller: Auth Failed redirected to login.jsp");
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 			e.printStackTrace();
 		}
 	}
+	
 	public void logout(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
+		// invalidate user session, redirect to login page
 		session.invalidate();
-		System.out.println("User logged out.");
+		System.out.println("User successfully logged out.");
 		resp.sendRedirect("/ers/login.jsp");
 	}
 }

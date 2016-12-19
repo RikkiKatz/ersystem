@@ -33,6 +33,7 @@ public class DataFacade {
 		Connection conn = getConnection();
 		List<ReimbType> list = new ReimbursementDAO(conn).getTypes();
 		conn.close();
+		System.out.println("DataFacade: getTypes(): " + list);
 		return list;
 	}
 	
