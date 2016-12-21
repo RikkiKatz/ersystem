@@ -41,7 +41,7 @@ public class ReimbursementDAO {
 				+ " REIMB_STATUS_ID, REIMB_TYPE_ID)"
 				+ " VALUES(?,?,?,?,?,?,?)";
 		
-		PreparedStatement stmt = conn.prepareStatement(sql, new String[]{"REIMB_ID"});
+		PreparedStatement stmt = conn.prepareStatement(sql);
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		int reimb_id = 0;
 		
@@ -55,7 +55,7 @@ public class ReimbursementDAO {
 		stmt.setInt(7, type.getType_id());
 		stmt.executeQuery();
 		
-		System.out.println("ReimbDao: insertReimb: do we get here before execute?");		
+		System.out.println("-----------------------ReimbDao: insertReimb: do we get here before execute?");		
 		
 		Reimbursement reimb = new Reimbursement(reimb_id, amount, 
 				ts, null, description, author, null, status, type);
@@ -90,11 +90,11 @@ public class ReimbursementDAO {
 		String sql = "SELECT REIMB_ID, REIMB_AMOUNT,"
 					+ " s.REIMB_STATUS_ID, s.REIMB_STATUS, t.REIMB_TYPE_ID, t.REIMB_TYPE,"
 					+ " REIMB_DESCRIPTION, REIMB_SUBMITTED, REIMB_RESOLVED,"
-					+ " u.ERS_USERS_ID AS RESOLVER_USERS_ID,"
-					+ " u.ERS_USERNAME AS RESOLVER_USERNAME,"
-					+ " u.USER_FIRST_NAME AS RESOLVER_FIRST_NAME,"
-					+ " u.USER_LAST_NAME AS RESOLVER_LAST_NAME,"
-					+ " u.USER_EMAIL AS RESOLVER_EMAIL"
+					+ " u.ERS_USERS_ID,"
+					+ " u.ERS_USERNAME,"
+					+ " u.USER_FIRST_NAME,"
+					+ " u.USER_LAST_NAME,"
+					+ " u.USER_EMAIL"
 				+ " FROM ERS_REIMBURSEMENT r"
 					+ " JOIN ERS_REIMBURSEMENT_TYPE t"
 					+ " ON r.REIMB_TYPE_ID = t.REIMB_TYPE_ID"
@@ -144,14 +144,13 @@ public class ReimbursementDAO {
 		}else{
 			while(rs.next()){
 
-				System.out.println("Reached mapReimbs() not author?");
+				System.out.println("Reached mapReimbs() not author.");
 				id = rs.getInt("REIMB_ID");
 				amount = rs.getDouble("REIMB_AMOUNT");
 				System.out.println("Is set author the prob?");
 				author = userDao.setUser(rs, true);
 				System.out.println("Is set resolver the prob?");
 				resolver = userDao.setUser(rs, false);
-				System.out.println("Not the prob?");
 				status = new ReimbStatus(rs.getInt("REIMB_STATUS_ID"), rs.getString("REIMB_STATUS"));
 				type = new ReimbType(rs.getInt("REIMB_TYPE_ID"), rs.getString("REIMB_TYPE"));
 				description = rs.getString("REIMB_DESCRIPTION");

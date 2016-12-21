@@ -29,12 +29,12 @@ public class ReimbDAOImpl {
 		UserDAO userDao = new UserDAO(conn);
 		User user= new User();
 		user = userDao.getUserLoginInfo("john");
-		System.out.println("ReimbDaoImpl: " + user.getUser_id());
+		System.out.println("ReimbDaoImpl: User Id for getUserLoginInfo" + user.getUser_id());
 		
 		ReimbType type = reimbDao.getTypeByID(1);
 		ReimbStatus status = reimbDao.getStatusByID(1);
 		
-		reimbDao.insertReimb(user, 10.0, type, status, "all the pizzas");
+		reimbDao.insertReimb(user, 100.0, type, status, "testing");
 		
 		
 		//reimbDao.getAllReimbs();

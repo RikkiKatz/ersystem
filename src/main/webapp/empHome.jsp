@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -53,29 +54,28 @@
 						<th>	Resolver Name	</th>
 					</tr>
 				</thead>
+				
 				<tbody>
 					<c:forEach var="reimb" items="${reimbs}">
 			            <tr>
-			                <td>	<c:out value="${reimb.submitted}">			</c:out>	</td>
-							<td>	<c:out value="${reimb.typeId.type}">		</c:out>	</td>
-							<td>	<c:out value="${reimb.description}">		</c:out>	</td>
-							<td>	<c:out value="${reimb.amount}">				</c:out>	</td>
-							<td>	<c:out value="${reimb.statusId.status}">	</c:out>	</td>
-							<td>	<c:out value="${reimb.resolved}">			</c:out>	</td>
-							<td>	<c:out value="${reimb.resolver.fullName}">	</c:out>	</td>
+			                <td>	<fmt:formatDate type="date" dateStyle="long" 
+				                		value="${reimb.date_submitted}" />							</td>
+							<td>	<c:out value="${reimb.type_id.type}">				</c:out>	</td>
+							<td>	<c:out value="${reimb.description}">				</c:out>	</td>
+							<td>	<fmt:setLocale value="en_US"/>
+									<fmt:formatNumber type ="currency" 
+										value="${reimb.amount}"/>									</td>
+							<td>	<c:out value="${reimb.status_id.status}">			</c:out>	</td>
+							<td>	<c:out value="${reimb.date_resolved}">				</c:out>	</td>
+							<td>	<c:if test="${reimb.resolver_id.user_id !=0}">
+										<c:out value="${reimb.resolver_id.fullName}">	</c:out>
+							
+									</c:if>															</td>
 			            </tr>
-			        </c:forEach>	
-			        <tr>
-		                <td>December 15, 2016</td>
-						<td>Food</td>
-						<td>Pizza</td>
-						<td>5.00</td>
-						<td>Pending</td>
-						<td></td>
-						<td></td>
-			    	</tr>	
+					</c:forEach>
 				</tbody>
 				
+
 			</table>
 		</div>
 	

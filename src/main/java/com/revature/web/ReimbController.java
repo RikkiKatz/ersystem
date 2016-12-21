@@ -44,6 +44,18 @@ public class ReimbController {
 		}
 	}
 
+	public void getReimbs(HttpServletRequest req, HttpServletResponse resp) 
+			throws ServletException, IOException{
+		new BusinessDelegate();
+		HttpSession session = req.getSession();
+		User user =(User) session.getAttribute("user");
+		try {List<Reimbursement> reimb = BusinessDelegate.getReimbs(user);
+			req.getSession().setAttribute("reimbs", reimb);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void insertReimb(HttpServletRequest req, HttpServletResponse resp){
 		System.out.println("ReimbContoller: insertReimb(): Got amount: " + req.getParameter("amount"));
 		System.out.println("ReimbContoller: insertReimb(): Got descr: " + req.getParameter("description"));
@@ -51,7 +63,9 @@ public class ReimbController {
 		try{
 			HttpSession session = req.getSession();
 			
+			@SuppressWarnings("unchecked")
 			List<ReimbType> typeList = (List<ReimbType>)session.getAttribute("types");
+			@SuppressWarnings("unchecked")
 			List<ReimbStatus> statusList = (List<ReimbStatus>) session.getAttribute("status");
 					
 			double amount = Validation.validateAmount(req.getParameter("amount"));
@@ -69,12 +83,17 @@ public class ReimbController {
 			System.out.println("ReimbContoller: insertReimb(): new Reimb info: " +user + " " + amount + " " + type + " " + status + " " + description);
 			
 			Reimbursement reimb = BusinessDelegate.insertReimb(user, amount, type, status, description);
+			
+			getReimbs(req, resp);
+			
 			System.out.println("ReimbContoller: insertReimb(): after business delegate insert reimb(): " + reimb);
+			@SuppressWarnings("unchecked")
 			List<Reimbursement> list = (List<Reimbursement>) session.getAttribute("reimbs");
 			System.out.println("ReimbContoller: insertReimb(): list of reimbursements:" + list);
 			list.add(reimb);
 			System.out.println("ReimbContoller: insertReimb(): Added reimb: " + reimb);
 			session.setAttribute("reimbs", list);
+			
 			String message = "Reimbursment created.";
 			req.setAttribute("successMessage", message);
 			System.out.println("ReimbContoller: insertReimb(): Right before first forward.");
@@ -95,7 +114,7 @@ public class ReimbController {
 			}
 		}
 	}
-
+/**
 	public void getUsers(HttpServletRequest req, HttpServletResponse resp){
 	HttpSession session = req.getSession();
 		User user = (User)session.getAttribute("user");
@@ -123,6 +142,6 @@ public class ReimbController {
 			}
 		}
 	}
-
+**/
 
 }

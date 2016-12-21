@@ -11,21 +11,29 @@ import com.revature.data.DataFacade;
 
 public class UserService {
 
-	public User authenticate(String username, String password) throws AuthenticationException, SQLException {
-		DataFacade dataTier = new DataFacade();
-		User user = dataTier.getUserLoginInfo(username);
-		String hashedPassword = null;
+	
+	private static UserService INSTANCE = null;
+	
+	UserService(){}
+	
+	synchronized public static UserService getInstance(){
+		if(INSTANCE == null)
+			INSTANCE = new UserService();
+		return INSTANCE;
+	}
+	
+	User authenticate(String username, String password) throws AuthenticationException{
 		
-		if(user.getPassword()!=null){
-			hashedPassword = user.getPassword();
+		DataFacade facade = new DataFacade();
+		User user = null;
+		String hash = facade.getHash(username);
+		if(hash == null || !BCrypt.checkpw(password, hash)){ 
+			System.out.println("User login failed");
+			throw new AuthenticationException();
+		}else{
+			user = facade.getUser(username);
+			System.out.println("User login successful");
 		}
-		
-		if(user == null || ! BCrypt.checkpw(password, hashedPassword)){
-			throw new AuthenticationException("Unable to sign in.");
-		}
-
-		System.out.println(username+ " " +user.getPassword());
-		user.setPassword(null);
 		return user;
 	}
 

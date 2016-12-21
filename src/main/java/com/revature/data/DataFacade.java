@@ -136,4 +136,45 @@ public class DataFacade {
 			}
 		}
 	}
+	public String getHash(String username) {
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			UserDAO dao = new UserDAO(conn);
+			String hashedPassword = dao.getPassword(username);
+			return hashedPassword;
+		}catch(SQLException e){
+			e.printStackTrace();
+			return null;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public User getUser(String username){
+		User user = null;
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			UserDAO dao = new UserDAO(conn);
+			user = dao.getUser(username);
+			return user;
+		}catch(SQLException e){
+			e.printStackTrace();
+			return null;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 }

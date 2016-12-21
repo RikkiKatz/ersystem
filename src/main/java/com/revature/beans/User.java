@@ -9,7 +9,6 @@ public class User {
 
 	private int user_id;
 	private String username;
-	private String password;
 	private String first_name;
 	private String last_name;
 	private String email;
@@ -24,16 +23,15 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [user_id=" + user_id + ", username=" + username + ", password=" + password + ", first_name="
+		return "User [user_id=" + user_id + ", username=" + username + ", first_name="
 				+ first_name + ", last_name=" + last_name + ", email=" + email + ", role_id=" + role_id + "]";
 	}
 
-	public User(int user_id, String username, String password, String first_name, String last_name, String email,
+	public User(int user_id, String username, String first_name, String last_name, String email,
 			UserRole role_id) {
 		super();
 		this.user_id = user_id;
 		this.username = username;
-		this.password = password;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.email = email;
@@ -58,14 +56,6 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getFirst_name() {
