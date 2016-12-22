@@ -28,7 +28,7 @@ public class ReimbDAOImpl {
 		//Reimbursement reimb = new Reimbursement(2, 5, null, null,null,null,null,null,null);
 		UserDAO userDao = new UserDAO(conn);
 		User user= new User();
-		user = userDao.getUserLoginInfo("john");
+		user = userDao.getUserLoginInfo("jane");
 		System.out.println("ReimbDaoImpl: User Id for getUserLoginInfo" + user.getUser_id());
 		
 		ReimbType type = reimbDao.getTypeByID(1);

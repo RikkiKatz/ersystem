@@ -19,6 +19,7 @@ public class DispatcherServlet extends HttpServlet{
 		switch(requestURI){
 			case "/ers/login.do" : {
 				new LoginController().login(request, response);
+				new ReimbController().getReimbs(request, response);
 				break;
 			}case "/ers/newRequest.do":{
 				new ReimbController().getTypes(request, response);

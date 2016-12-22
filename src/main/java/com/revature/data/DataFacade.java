@@ -70,7 +70,7 @@ public class DataFacade {
 		}
 		return null;
 	}
-
+/**
 	public void updateReimbursement(Reimbursement reimb) throws SQLException {
 		Connection conn = null;
 		try{	
@@ -94,7 +94,7 @@ public class DataFacade {
 			}
 		}
 	}
-
+**/
 	public static List<Reimbursement> getAllReimbs() throws Exception{
 		Connection conn = null;
 		try{

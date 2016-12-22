@@ -1,4 +1,5 @@
 package com.revature.beans;
+import java.sql.Timestamp;
 /**
  * JavaBean for Reimbursement- contains all reimbursement properties
  * @author Rikki
@@ -8,7 +9,6 @@ import java.util.Date;
 
 public class Reimbursement {
 
-	private int reimb_id;
 	private double amount;
 	private Date date_submitted;
 	private Date date_resolved;
@@ -20,15 +20,14 @@ public class Reimbursement {
 	
 	@Override
 	public String toString() {
-		return "Reimbursement [reimb_id=" + reimb_id + ", amount=" + amount + ", date_submitted=" + date_submitted
+		return "Reimbursement [amount=" + amount + ", date_submitted=" + date_submitted
 				+ ", date_resolved=" + date_resolved + ", description=" + description + ", author_id=" + author_id
 				+ ", resolver_id=" + resolver_id + ", status_id=" + status_id + ", type_id=" + type_id + "]";
 	}
 	
-	public Reimbursement(int reimb_id, double amount, Date date_submitted, Date date_resolved, String description,
+	public Reimbursement(double amount, Date date_submitted, Date date_resolved, String description,
 			User author_id, User resolver_id, ReimbStatus status_id, ReimbType type_id) {
 		super();
-		this.reimb_id = reimb_id;
 		this.amount = amount;
 		this.date_submitted = date_submitted;
 		this.date_resolved = date_resolved;
@@ -39,16 +38,6 @@ public class Reimbursement {
 		this.type_id = type_id;
 	}
 
-	public Reimbursement() {
-		super();
-	}
-	
-	public int getReimb_id() {
-		return reimb_id;
-	}
-	public void setReimb_id(int reimb_id) {
-		this.reimb_id = reimb_id;
-	}
 	public double getAmount() {
 		return amount;
 	}

@@ -36,28 +36,27 @@ public class ReimbursementDAO {
 		System.out.println("ReimbDao: reached insertReimb()");
 		
 		String sql = "INSERT INTO ERS_REIMBURSEMENT("
-				+ " REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED,"
+				+ " REIMB_AMOUNT, REIMB_SUBMITTED,"
 				+ " REIMB_DESCRIPTION, REIMB_AUTHOR,"
 				+ " REIMB_STATUS_ID, REIMB_TYPE_ID)"
-				+ " VALUES(?,?,?,?,?,?,?)";
+				+ " VALUES(?,?,?,?,?,?)";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
-		int reimb_id = 0;
 		
-		reimb_id = new ReimbursementDAO(conn).getAllReimbs().size()+1;
-		stmt.setInt(1, reimb_id);
-		stmt.setDouble(2, amount);
-		stmt.setTimestamp(3, ts);
-		stmt.setString(4, description);
-		stmt.setInt(5, author.getUser_id());
-		stmt.setInt(6, 1);
-		stmt.setInt(7, type.getType_id());
+		//reimb_id = new ReimbursementDAO(conn).getAllReimbs().size()+1;
+		//stmt.setInt(1, reimb_id);
+		stmt.setDouble(1, amount);
+		stmt.setTimestamp(2, ts);
+		stmt.setString(3, description);
+		stmt.setInt(4, author.getUser_id());
+		stmt.setInt(5, 1);
+		stmt.setInt(6, type.getType_id());
 		stmt.executeQuery();
 		
 		System.out.println("-----------------------ReimbDao: insertReimb: do we get here before execute?");		
 		
-		Reimbursement reimb = new Reimbursement(reimb_id, amount, 
+		Reimbursement reimb = new Reimbursement(amount, 
 				ts, null, description, author, null, status, type);
 		System.out.println("ReimbDao: insertReimb(): " + reimb);
 		return reimb;
@@ -112,7 +111,6 @@ public class ReimbursementDAO {
 	}
 	
 	private void mapReimbs(ResultSet rs, List<Reimbursement> list, boolean isAuthor) throws SQLException{
-		int id; 
 		double amount;
 		User author;
 		User resolver;
@@ -126,7 +124,6 @@ public class ReimbursementDAO {
 		if(isAuthor){
 			while(rs.next()){
 				System.out.println("Reached mapReimbs() yes author?");
-				id = rs.getInt("REIMB_ID");
 				amount = rs.getDouble("REIMB_AMOUNT");
 				author = null;
 				System.out.println("Is resolver the prob?");
@@ -137,7 +134,7 @@ public class ReimbursementDAO {
 				description = rs.getString("REIMB_DESCRIPTION");
 				submitted = rs.getTimestamp("REIMB_SUBMITTED");
 				resolved = rs.getTimestamp("REIMB_RESOLVED");
-				reimb = new Reimbursement(id, amount, submitted, resolved, description, author, resolver, status, type);
+				reimb = new Reimbursement(amount, submitted, resolved, description, author, resolver, status, type);
 				System.out.println("Is author: " +reimb);
 				list.add(reimb);
 			}
@@ -145,18 +142,15 @@ public class ReimbursementDAO {
 			while(rs.next()){
 
 				System.out.println("Reached mapReimbs() not author.");
-				id = rs.getInt("REIMB_ID");
 				amount = rs.getDouble("REIMB_AMOUNT");
-				System.out.println("Is set author the prob?");
 				author = userDao.setUser(rs, true);
-				System.out.println("Is set resolver the prob?");
 				resolver = userDao.setUser(rs, false);
 				status = new ReimbStatus(rs.getInt("REIMB_STATUS_ID"), rs.getString("REIMB_STATUS"));
 				type = new ReimbType(rs.getInt("REIMB_TYPE_ID"), rs.getString("REIMB_TYPE"));
 				description = rs.getString("REIMB_DESCRIPTION");
 				submitted = rs.getTimestamp("REIMB_SUBMITTED");
 				resolved = rs.getTimestamp("REIMB_RESOLVED");
-				reimb = new Reimbursement(id, amount, submitted, resolved, description, author, resolver, status, type);
+				reimb = new Reimbursement(amount, submitted, resolved, description, author, resolver, status, type);
 				System.out.println("Is author: " +reimb);
 				list.add(reimb);
 			} 
@@ -245,7 +239,7 @@ public class ReimbursementDAO {
 		}
 		
 	}
-**/
+
 	public void update(Reimbursement reimb) throws SQLException {	
 		String sql = "UPDATE REIMBURSMENT"
 					+ " SET REIMB_STATUS_ID = ?, REIMB_RESOLVED = ?, REIMB_RESOLVER = ?"
@@ -257,10 +251,9 @@ public class ReimbursementDAO {
 		stmt.setInt(4, reimb.getReimb_id());
 		stmt.executeUpdate();
 	}
-
+**/
 	private void mapRows(ResultSet rs, List<Reimbursement> results) throws SQLException {
 		while(rs.next()) {
-			int reimb_id = rs.getInt("reimb_id");
 			Double amount = rs.getDouble("reimb_amount");
 			Date date_submitted = rs.getDate("reimb_submitted");
 			Date date_resolved = rs.getDate("reimb_resolved");
@@ -278,7 +271,7 @@ public class ReimbursementDAO {
 			ReimbType type_id = new ReimbType();
 			type_id.setType_id(rs.getInt("reimb_type_id"));
 			
-			Reimbursement obj = new Reimbursement(reimb_id, amount, date_submitted, date_resolved, 
+			Reimbursement obj = new Reimbursement(amount, date_submitted, date_resolved, 
 									description, author, resolver, status_id, type_id);
 			results.add(obj);
 		}
@@ -363,18 +356,5 @@ public class ReimbursementDAO {
 		ReimbStatus status = new ReimbStatus(status_id, reimb_status);
 		System.out.println("ReimbDAO: getTypeByID(): " + status);
 		return status;
-	}
-	
-	/**
-	 * Delete a reimbursement record
-	 * @param reimb
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
-	public void delete (Reimbursement reimb) throws SQLException {		
-		String sql = "DELETE FROM REIMBURSMENT WHERE REIMB_ID = ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, reimb.getReimb_id());
-		stmt.executeUpdate();
 	}
 }

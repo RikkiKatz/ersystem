@@ -8,8 +8,10 @@
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="empHome.jsp" class="active">Home</a></li>
-				<li><a href="newRequest.do">New Request</a></li>
+				<li><a href="empHome.jsp" class="active">Home	</a></li>
+				<c:if test="${user.role_id.id == 2}">
+					<li><a href="newRequest.do">New Request		</a></li>
+				</c:if>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#">Pending</a></li>

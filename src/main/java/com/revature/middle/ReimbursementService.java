@@ -23,11 +23,11 @@ public class ReimbursementService {
 	public List<ReimbStatus> getStatus() throws SQLException {
 		return new DataFacade().getStatus();
 	}
-
+/**
 	public void updateReimbursement (Reimbursement reimb) throws SQLException {
 		new DataFacade().updateReimbursement(reimb);
 	}
-	
+**/	
 	public Reimbursement insertReimb(User author, double amount, 
 			ReimbType type,ReimbStatus status, String description) throws SQLException{
 		return new DataFacade().insertReimb(author, amount, type, status, description);
