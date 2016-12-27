@@ -1,7 +1,5 @@
 package com.revature.middle;
 
-import java.sql.SQLException;
-
 import javax.naming.AuthenticationException;
 
 import org.mindrot.jbcrypt.BCrypt;

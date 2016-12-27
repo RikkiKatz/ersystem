@@ -37,7 +37,7 @@ public class ReimbController {
 		try {
 			new BusinessDelegate();
 			List<ReimbStatus> reimb = BusinessDelegate.getStatus();
-			request.getSession().setAttribute("status", reimb);
+			request.getSession().setAttribute("statuses", reimb);
 			//request.getRequestDispatcher("managerHome.jsp").forward(request, response);
 		}catch (SQLException e) {
 			e.printStackTrace();

@@ -91,10 +91,15 @@ public class UserDAO {
 		if(isAuthor){
 			System.out.println("Do we get to setUser() is author?");
 			id = rs.getInt("ERS_USERS_ID");
+			System.out.println("============ Do we get ID?" + id);
 			username = rs.getString("ERS_USERNAME");
-			lastName = rs.getString("USER_LAST_NAME");
+			System.out.println("============ Do we get username?" + username);
 			firstName = rs.getString("USER_FIRST_NAME");
+			System.out.println("============ Do we get firstName?" + firstName);
+			lastName = rs.getString("USER_LAST_NAME");
+			System.out.println("============ Do we get lastName?" + lastName);
 			email = rs.getString("USER_EMAIL");
+			System.out.println("============ Do we get email?" + email);
 		}else{
 			System.out.println("Do we get to setUser() not author?");
 			id = rs.getInt("ERS_USERS_ID");

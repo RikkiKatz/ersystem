@@ -61,9 +61,7 @@
 			</div>
 			<div class = "row">
 				<div class="form-group col-md-6 col-sm-6">
-					<label>Enter Description</label> 
-					<textarea name="description" class="form-control" form = "newRequestForm" rows="6">
-					</textarea>
+					<textarea name="description" class="form-control" form="newRequestForm" placeholder="Description" rows="6"></textarea>
 				</div>
 			</div>
 			<div class="form-group">

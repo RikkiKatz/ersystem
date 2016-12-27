@@ -19,14 +19,14 @@
 		<url-pattern>loginServlet</url-pattern>
 	</servlet-mapping>
 
-<!--<servlet>
+	<servlet>
 		<servlet-name>updateStatus</servlet-name>
 		<servlet-class>com.revature.web.ReimbController</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>updateStatus</servlet-name>
-		<url-pattern>updateStatusServlet</url-pattern>
+		<url-pattern>updateStatus</url-pattern>
 	</servlet-mapping>
--->
+
 </web-app>

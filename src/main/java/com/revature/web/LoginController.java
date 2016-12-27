@@ -3,6 +3,7 @@ package com.revature.web;
 
 import java.io.IOException;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,16 +31,10 @@ public class LoginController {
 			System.out.println("Reached start of Login Controller for user: " +user.getFirst_name());
 					
 			if(user != null && user.getRole_id().getId()==2) {
-				//List<Reimbursement> reimb = new DataFacade().getReimbForAuthor(user);
-				//request.setAttribute("reimb", reimb);
-				//request.getRequestDispatcher("empHome.jsp").forward(request, response);
 				System.out.println("Login controller redirect for type: " + user.getRole_id().getUser_role());
 				response.sendRedirect("empHome.jsp");
 				session=request.getSession();			
 			}else if(user != null && user.getRole_id().getId()==1) {
-				//List<Reimbursement> reimb = new DataFacade().getReimbForResolver(user);
-				//request.setAttribute("resolverList", reimb);
-				//request.getRequestDispatcher("managerHome.jsp").forward(request, response);
 				System.out.println("Login controller redirect for type: " + user.getRole_id().getUser_role());
 				response.sendRedirect("managerHome.jsp");
 				session=request.getSession();		
@@ -48,20 +43,29 @@ public class LoginController {
 			session.setAttribute("password", password);
 			session.setAttribute("user", user);
 			System.out.println("Login Controller: successfuly got user session for User: " + user);
+		}catch(AuthenticationException e) {
+			e.printStackTrace();
+			String loginErrorMessage = "Invalid Username & Password combination. Please try again.";
+			request.setAttribute("loginErrorMessage", loginErrorMessage); 
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}catch(Exception e) {
 			request.setAttribute("authFailed", "try to login again");
+			request.setAttribute("error","<div class=\"alert alert-danger\" "
+					+ "role=\"alert\">"
+					+ " <strong>Wrong Username and Password combination.</strong>"
+					+ " Please enter a valid Username and Password</div>");
 			System.out.println("Login Controller: Auth Failed redirected to login.jsp");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 			e.printStackTrace();
 		}
 	}
 	
-	public void logout(HttpServletRequest req, HttpServletResponse resp) 
+	public void logout(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		HttpSession session = req.getSession();
+		HttpSession session = request.getSession();
 		// invalidate user session, redirect to login page
 		session.invalidate();
 		System.out.println("User successfully logged out.");
-		resp.sendRedirect("/ers/login.jsp");
+		response.sendRedirect("/ers/login.jsp");
 	}
 }

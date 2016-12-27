@@ -69,13 +69,10 @@
 							<td>	<c:out value="${reimb.date_resolved}">				</c:out>	</td>
 							<td>	<c:if test="${reimb.resolver_id.user_id !=0}">
 										<c:out value="${reimb.resolver_id.fullName}">	</c:out>
-							
 									</c:if>															</td>
 			            </tr>
 					</c:forEach>
 				</tbody>
-				
-
 			</table>
 		</div>
 	
@@ -83,5 +80,6 @@
 			<a href="newRequest.do" class="btn btn-primary" role="button">Submit New Request</a>
 		</div>
 	</div>
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

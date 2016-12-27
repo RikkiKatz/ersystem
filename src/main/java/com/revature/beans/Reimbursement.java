@@ -1,5 +1,4 @@
 package com.revature.beans;
-import java.sql.Timestamp;
 /**
  * JavaBean for Reimbursement- contains all reimbursement properties
  * @author Rikki
@@ -9,6 +8,7 @@ import java.util.Date;
 
 public class Reimbursement {
 
+	private int id;
 	private double amount;
 	private Date date_submitted;
 	private Date date_resolved;
@@ -20,14 +20,15 @@ public class Reimbursement {
 	
 	@Override
 	public String toString() {
-		return "Reimbursement [amount=" + amount + ", date_submitted=" + date_submitted
+		return "Reimbursement [id=" + id + ", amount=" + amount + ", date_submitted=" + date_submitted
 				+ ", date_resolved=" + date_resolved + ", description=" + description + ", author_id=" + author_id
 				+ ", resolver_id=" + resolver_id + ", status_id=" + status_id + ", type_id=" + type_id + "]";
 	}
 	
-	public Reimbursement(double amount, Date date_submitted, Date date_resolved, String description,
+	public Reimbursement(int id, double amount, Date date_submitted, Date date_resolved, String description,
 			User author_id, User resolver_id, ReimbStatus status_id, ReimbType type_id) {
 		super();
+		this.id = id;
 		this.amount = amount;
 		this.date_submitted = date_submitted;
 		this.date_resolved = date_resolved;
@@ -37,7 +38,17 @@ public class Reimbursement {
 		this.status_id = status_id;
 		this.type_id = type_id;
 	}
-
+	
+	public Reimbursement() {
+		super();
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public double getAmount() {
 		return amount;
 	}
@@ -47,19 +58,15 @@ public class Reimbursement {
 	public Date getDate_submitted() {
 		return date_submitted;
 	}
-
-	public Date getDate_resolved() {
-		return date_resolved;
-	}
-
-	public void setDate_resolved(Date date_resolved) {
-		this.date_resolved = date_resolved;
-	}
-
 	public void setDate_submitted(Date date_submitted) {
 		this.date_submitted = date_submitted;
 	}
-
+	public Date getDate_resolved() {
+		return date_resolved;
+	}
+	public void setDate_resolved(Date date_resolved) {
+		this.date_resolved = date_resolved;
+	}
 	public String getDescription() {
 		return description;
 	}
@@ -90,7 +97,6 @@ public class Reimbursement {
 	public void setType_id(ReimbType type_id) {
 		this.type_id = type_id;
 	}
-	
 	
 	
 }
