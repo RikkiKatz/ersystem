@@ -53,15 +53,15 @@
 			</div>
 			
 			<div class="form-group form-inline">
-				<label class="sr-only" for="inputAmount">Amount (in dollars)</label>
+				<label class="sr-only" for="inputAmount" >Amount (in dollars)</label>
 				<div class="input-group">
 					<div class="input-group-addon">$</div>
-					<input name= "amount" min="0" type="number" class="form-control" placeholder="Amount" required>
+					<input name= "amount" min="0" type="number" step=".01" class="form-control" placeholder="Amount" required>
 				</div>
 			</div>
 			<div class = "row">
 				<div class="form-group col-md-6 col-sm-6">
-					<textarea name="description" class="form-control" form="newRequestForm" placeholder="Description" rows="6"></textarea>
+					<textarea name="description" class="form-control" form="newRequestForm" placeholder="Description" rows="6" required></textarea>
 				</div>
 			</div>
 			<div class="form-group">

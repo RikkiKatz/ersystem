@@ -15,7 +15,7 @@
 				type="currency" value="${reimb.amount}" /></td>
 		<td><c:out value="${reimb.status_id.status}" /></td>
 		<td>
-			<form action="approve.do" method="POST">
+			<form action="/ers/approve.do" method="POST">
 				<button type="submit" name="approveReimb"
 					class="btn btn-default btn-sm btn-block btn-approve"
 					onclick="statusClick(this.id);"

@@ -82,7 +82,6 @@ public class DataFacade {
 	}
 
 	public void updateStatus(Reimbursement reimb, User user, ReimbStatus status) throws Exception{
-		// unauthorized user
 		if(!user.getRole_id().getUser_role().equals("Manager")){
 			throw new Exception();
 		}

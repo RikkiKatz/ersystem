@@ -16,13 +16,13 @@
 		<td><c:out value="${reimb.status_id.status}" /></td>
 
 		<td>
-			<form action="approve.do" method="POST">
+			<form action="/ers/approve.do" method="POST">
 				<button type="submit" name="approveReimb"
 					class="btn btn-default btn-sm btn-block btn-approve"
 					onclick="statusClick(this.id);"
 					value="<c:out value="${reimb.id}"/>">Approve</button>
 			</form>
-			<form action="deny.do" method="POST">
+			<form action="/ers/deny.do" method="POST">
 				<button type="submit" name="denyReimb"
 					class="btn btn-default btn-sm btn-block btn-deny"
 					onclick="statusClick(this.id);"

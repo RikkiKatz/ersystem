@@ -68,7 +68,7 @@
 							<th>	Description		</th>
 							<th>	Amount			</th>
 							<th>	Status			</th>
-							<th>	Resolve			</th>
+							<th>	Update Status	</th>
 							<th>	Date Resolved	</th>
 							<th>	Resolver Name	</th>
 						</tr>

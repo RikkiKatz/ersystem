@@ -12,7 +12,7 @@
 					value="${reimb.amount}"/>								</td>
 		<td>	<c:out value="${reimb.status_id.status}" />					</td>	
 			
-		<td>	<form action="deny.do" method = "POST">
+		<td>	<form action="/ers/deny.do" method = "POST">
 					<button type="submit" name="denyReimb" class="btn btn-default btn-sm btn-block btn-deny" 
 							onclick="statusClick(this.id);" value="<c:out value="${reimb.id}"/>">Deny</button>
 		         </form>													</td>		
