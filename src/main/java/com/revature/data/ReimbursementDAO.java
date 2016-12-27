@@ -248,7 +248,7 @@ public class ReimbursementDAO {
 			ReimbStatus obj = new ReimbStatus(status_id, status);
 			results.add(obj);
 		}
-		System.out.println(results);
+		System.out.println("ReimbDAO: getStatus: " + results);
 		return results;
 	}
 
@@ -302,5 +302,70 @@ public class ReimbursementDAO {
 		ReimbStatus status = new ReimbStatus(status_id, reimb_status);
 		System.out.println("ReimbDAO: getTypeByID(): " + status);
 		return status;
+	}
+
+	void updateStatus(int reimb_id, int resolver, int status_id, Timestamp ts) throws SQLException{
+		String sql = "UPDATE ERS_REIMBURSEMENT"
+					+ " SET REIMB_STATUS_ID = ?, REIMB_RESOLVER = ?,"
+					+ " REIMB_RESOLVED = ?"
+					+ " WHERE REIMB_ID = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, status_id);
+		stmt.setInt(2, resolver);
+		stmt.setTimestamp(3, ts);
+		stmt.setInt(4, reimb_id);
+		stmt.executeQuery();
+	}
+	
+	Reimbursement getReimbById(int reimb_id) throws SQLException {
+		String sql = "SELECT REIMB_AMOUNT,"
+				+ " s.REIMB_STATUS_ID, s.REIMB_STATUS,"
+				+ " t.REIMB_TYPE_ID, t.REIMB_TYPE,"
+				+ " REIMB_DESCRIPTION, REIMB_SUBMITTED, REIMB_RESOLVED,"
+					+ " auth.ERS_USERS_ID AS AUTHOR_ID,"
+					+ " auth.ERS_USERNAME AS AUTHOR_USERNAME," 
+					+ " auth.USER_FIRST_NAME AS AUTHOR_FIRST_NAME," 
+					+ " auth.USER_LAST_NAME AS AUTHOR_LAST_NAME," 
+					+ " auth.USER_EMAIL AS AUTHOR_EMAIL,"
+						+ " res.ERS_USERS_ID AS RESOLVER_ID,"
+						+ " res.ERS_USERNAME AS RESOLVER_USERNAME," 
+						+ " res.USER_FIRST_NAME AS RESOLVER_FIRST_NAME," 
+						+ " res.USER_LAST_NAME AS RESOLVER_LAST_NAME," 
+						+ " res.USER_EMAIL AS RESOLVER_EMAIL"
+			+ " FROM ERS_REIMBURSEMENT r"
+				+ " JOIN ERS_REIMBURSEMENT_TYPE t"
+				+ " ON r.REIMB_TYPE_ID = t.REIMB_TYPE_ID"
+					+ " JOIN ERS_REIMBURSEMENT_STATUS s"
+					+ " ON r.REIMB_STATUS_ID = s.REIMB_STATUS_ID"
+						+ " LEFT JOIN ERS_USERS auth"
+						+ " ON r.REIMB_AUTHOR = auth.ERS_USERS_ID"
+							+ " LEFT join ers_users res"
+							+ " ON r.reimb_resolver = res.ERS_USERS_ID"
+				+ " WHERE REIMB_ID=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, reimb_id);
+				
+		double amount;
+		User author;
+		User resolver;
+		ReimbStatus status;
+		ReimbType type;
+		String description;
+		Timestamp submitted, resolved;
+		Reimbursement reimb = null;
+		
+		ResultSet rs = stmt.executeQuery();		
+		while (rs.next()) {
+			amount = rs.getDouble("REIMB_AMOUNT");
+			author = setUser(rs, true);
+			resolver = setUser(rs, false);
+			status = new ReimbStatus(rs.getInt("REIMB_STATUS_ID"), rs.getString("REIMB_STATUS"));
+			type = new ReimbType(rs.getInt("REIMB_TYPE_ID"), rs.getString("REIMB_TYPE"));
+			description = rs.getString("REIMB_DESCRIPTION");
+			submitted = rs.getTimestamp("REIMB_SUBMITTED");
+			resolved = rs.getTimestamp("REIMB_RESOLVED");
+			reimb = new Reimbursement(reimb_id, amount, submitted, resolved, description, author, resolver, status, type);
+		}
+		return reimb;
 	}
 }

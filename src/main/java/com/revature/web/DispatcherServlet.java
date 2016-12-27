@@ -24,6 +24,15 @@ public class DispatcherServlet extends HttpServlet{
 			}case "/ers/newRequest.do":{
 				new ReimbController().getTypes(request, response);
 				break;
+			}case "/ers/updateStatus.do":{
+				new ReimbController().getStatus(request, response);
+				break;
+			}case "/ers/approve.do":{
+				new ReimbController().approveReimb(request, response);
+				break;
+			}case "/ers/deny.do":{
+				new ReimbController().denyReimb(request, response);
+				break;
 			}case "/ers/insert.do":{
 				new ReimbController().insertReimb(request, response);
 				break;

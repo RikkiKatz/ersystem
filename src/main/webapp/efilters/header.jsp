@@ -42,7 +42,7 @@
 </head>
 
 <body>
-	<%@ include file="nav.jsp" %>
+	<%@ include file="../nav.jsp" %>
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="employee-table-title">
 			<h2>Expense Reimbursement Requests</h2>
@@ -62,31 +62,3 @@
 				</thead>
 				
 				<tbody>
-					<c:forEach var="reimb" items="${reimbs}">
-			            <tr>
-			                <td>	<fmt:formatDate type="date" dateStyle="long" 
-				                		value="${reimb.date_submitted}" />							</td>
-							<td>	<c:out value="${reimb.type_id.type}">				</c:out>	</td>
-							<td>	<c:out value="${reimb.description}">				</c:out>	</td>
-							<td>	<fmt:setLocale value="en_US"/>
-									<fmt:formatNumber type ="currency" 
-										value="${reimb.amount}"/>									</td>
-							<td>	<c:out value="${reimb.status_id.status}">			</c:out>	</td>
-							<td>	<fmt:formatDate type="date" dateStyle="long"  
-										value="${reimb.date_resolved}" />							</td>
-							<td>	<c:if test="${reimb.resolver_id.user_id !=0}">
-										<c:out value="${reimb.resolver_id.fullName}">	</c:out>
-									</c:if>															</td>
-			            </tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
-	
-		<div>
-			<a href="newRequest.do" class="btn btn-primary" role="button">Submit New Request</a>
-		</div>
-	</div>
-	<%@ include file="footer.jsp" %>
-</body>
-</html>

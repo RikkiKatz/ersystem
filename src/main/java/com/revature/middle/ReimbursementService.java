@@ -23,24 +23,16 @@ public class ReimbursementService {
 	public List<ReimbStatus> getStatus() throws SQLException {
 		return new DataFacade().getStatus();
 	}
-/**
-	public void updateReimbursement (Reimbursement reimb) throws SQLException {
-		new DataFacade().updateReimbursement(reimb);
+
+	public void updateStatus (Reimbursement reimb, User user, ReimbStatus status) throws Exception {
+		new DataFacade().updateStatus(reimb, user, status);
 	}
-**/	
+	
 	public Reimbursement insertReimb(User author, double amount, 
 			ReimbType type,ReimbStatus status, String description) throws SQLException{
 		return new DataFacade().insertReimb(author, amount, type, status, description);
 	}	
 
-	/**
-	 * Get Reimbursements for Users- 
-	 * if manager, getAllReimbs()
-	 * if not, getAuthorReimbs()
-	 * @param user
-	 * @return
-	 * @throws Exception
-	 */
 	public List<Reimbursement> getReimbs(User user) throws Exception {
 		if(user.getRole_id().getUser_role().equals("Manager"))
 			return getAllReimbs();
@@ -53,6 +45,10 @@ public class ReimbursementService {
 
 	private List<Reimbursement> getAuthorReimbs(int author_id) throws Exception{
 		return DataFacade.getReimbByAuthor(author_id);
+	}
+
+	Reimbursement getReimbById(int reimb_id) throws SQLException {
+		return DataFacade.getReimbById(reimb_id);
 	}
 
 }

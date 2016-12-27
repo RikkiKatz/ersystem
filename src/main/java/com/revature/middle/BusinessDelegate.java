@@ -38,4 +38,12 @@ public class BusinessDelegate {
 		return new ReimbursementService().getStatus();
 	}
 
+	public void updateStatus(Reimbursement reimb, User user, ReimbStatus status) throws Exception {
+		 new ReimbursementService().updateStatus(reimb, user, status);
+	}
+
+	public Reimbursement getReimbById(int reimb_id) throws SQLException {
+		return new ReimbursementService().getReimbById(reimb_id);
+	}
+	
 }

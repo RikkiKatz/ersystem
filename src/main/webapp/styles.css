@@ -7,6 +7,20 @@
 	padding-top:10px;
 }
 
-.footer {
+.footer-space {
 	padding-bottom:25px;
+}
+
+.manager-table-title .employee-table-title{
+	padding-bottom: 10px;
+}
+
+.btn-approve {
+	color: green;
+	border-color: green;
+}
+
+.btn-deny {
+	color: red;
+	border-color: red;
 }

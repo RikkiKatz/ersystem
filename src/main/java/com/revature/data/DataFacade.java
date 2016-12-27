@@ -2,6 +2,7 @@ package com.revature.data;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.revature.beans.ReimbStatus;
@@ -28,6 +29,14 @@ public class DataFacade {
 		conn.close();
 		return user;
 	}
+	
+	public static Reimbursement getReimbById(int reimb_id) throws SQLException {
+		Connection conn = getConnection();
+		Reimbursement reimb = new ReimbursementDAO(conn).getReimbById(reimb_id);
+		conn.close();
+		System.out.println("DataFacade: getReimbById(): " + reimb);
+		return reimb;
+	}
 
 	public List<ReimbType> getTypes() throws SQLException {
 		Connection conn = getConnection();
@@ -41,6 +50,7 @@ public class DataFacade {
 		Connection conn = getConnection();
 		List<ReimbStatus> list = new ReimbursementDAO(conn).getStatus();
 		conn.close();
+		System.out.println("DataFacade: getStatus(): " + list);
 		return list;
 	}
 
@@ -70,15 +80,28 @@ public class DataFacade {
 		}
 		return null;
 	}
-/**
-	public void updateReimbursement(Reimbursement reimb) throws SQLException {
+
+	public void updateStatus(Reimbursement reimb, User user, ReimbStatus status) throws Exception{
+		// unauthorized user
+		if(!user.getRole_id().getUser_role().equals("Manager")){
+			throw new Exception();
+		}
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		updateStatus(reimb.getId(), user.getUser_id(), status.getStatus_id(), ts);
+		reimb.setStatus_id(new ReimbStatus(status.getStatus_id(), status.getStatus()));
+		reimb.setDate_resolved(ts);
+		reimb.setResolver_id(user);
+		
+	}
+
+	private void updateStatus(int reimb_id, int resolver, int status_id, Timestamp ts) {
 		Connection conn = null;
-		try{	
+		try{
 			conn = getConnection();
 			ReimbursementDAO dao = new ReimbursementDAO(conn);
-			dao.update(reimb);
-			conn.commit();
-		}catch (SQLException e) {
+			dao.updateStatus(reimb_id, resolver, status_id, ts);
+			conn.commit();		
+		}catch(SQLException e) {
 			try {
 				conn.rollback();
 			} catch (SQLException e1) {
@@ -94,7 +117,7 @@ public class DataFacade {
 			}
 		}
 	}
-**/
+
 	public static List<Reimbursement> getAllReimbs() throws Exception{
 		Connection conn = null;
 		try{
