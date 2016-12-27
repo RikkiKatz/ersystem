@@ -89,12 +89,12 @@
 								<td>	<c:if test="${reimb.status_id.status == 'Pending'}">
 						                	<form action="approve.do" method = "POST">
 							             		<button type="submit" name="approveReimb" class="btn btn-default btn-sm btn-block btn-approve" 
-							             			onclick="statusClick(this.id);" value="<c:out value="${reimb.id}"/>">Approved</button>
+							             			onclick="statusClick(this.id);" value="<c:out value="${reimb.id}"/>">Approve</button>
 											</form>
 											
 											<form action="deny.do" method = "POST">
 												<button type="submit" name="denyReimb" class="btn btn-default btn-sm btn-block btn-deny" 
-													onclick="statusClick(this.id);" value="<c:out value="${reimb.id}"/>">Denied</button>
+													onclick="statusClick(this.id);" value="<c:out value="${reimb.id}"/>">Deny</button>
 							             	</form>									
 										</c:if>	
 										<c:if test="${reimb.status_id.status == 'Denied'}">
@@ -121,7 +121,6 @@
 				        </c:forEach>
 					</tbody>
 				</table>
-				<a href="managerHome.jsp" class="btn btn-primary">Submit Changes</a>
 		</div>
 	</div>
 <%@ include file="footer.jsp" %>

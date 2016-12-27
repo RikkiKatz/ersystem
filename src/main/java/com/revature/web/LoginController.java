@@ -50,10 +50,6 @@ public class LoginController {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}catch(Exception e) {
 			request.setAttribute("authFailed", "try to login again");
-			request.setAttribute("error","<div class=\"alert alert-danger\" "
-					+ "role=\"alert\">"
-					+ " <strong>Wrong Username and Password combination.</strong>"
-					+ " Please enter a valid Username and Password</div>");
 			System.out.println("Login Controller: Auth Failed redirected to login.jsp");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 			e.printStackTrace();

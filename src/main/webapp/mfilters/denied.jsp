@@ -19,7 +19,7 @@
 				<button type="submit" name="approveReimb"
 					class="btn btn-default btn-sm btn-block btn-approve"
 					onclick="statusClick(this.id);"
-					value="<c:out value="${reimb.id}"/>">Approved</button>
+					value="<c:out value="${reimb.id}"/>">Approve</button>
 			</form>
 		</td>
 			<td>	<c:if test="${reimb.resolver_id.first_name != null}">

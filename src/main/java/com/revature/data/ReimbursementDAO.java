@@ -13,7 +13,6 @@ import com.revature.beans.ReimbStatus;
 import com.revature.beans.ReimbType;
 import com.revature.beans.Reimbursement;
 import com.revature.beans.User;
-import com.revature.beans.UserRole;
 
 /**
  * Methods: insert(), update(), delete(), getAll()

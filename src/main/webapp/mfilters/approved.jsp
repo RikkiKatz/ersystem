@@ -14,7 +14,7 @@
 			
 		<td>	<form action="deny.do" method = "POST">
 					<button type="submit" name="denyReimb" class="btn btn-default btn-sm btn-block btn-deny" 
-							onclick="statusClick(this.id);" value="<c:out value="${reimb.id}"/>">Denied</button>
+							onclick="statusClick(this.id);" value="<c:out value="${reimb.id}"/>">Deny</button>
 		         </form>													</td>		
 			<td>	<c:if test="${reimb.resolver_id.first_name != null}">
 	        				<fmt:formatDate type="date" dateStyle="long" value="${reimb.date_resolved}" />						

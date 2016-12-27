@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.ValidationException;
 
 import com.revature.beans.ReimbStatus;
 import com.revature.beans.ReimbType;
@@ -80,7 +79,7 @@ public class ReimbController {
 						
 			Reimbursement reimb = BusinessDelegate.insertReimb(user, amount, type, status, description);
 			
-			getReimbs(req, resp);
+			//getReimbs(req, resp);
 			
 			@SuppressWarnings("unchecked")
 			List<Reimbursement> list = (List<Reimbursement>) session.getAttribute("reimbs");
@@ -121,11 +120,9 @@ public class ReimbController {
 			User user = (User) session.getAttribute("user");
 			new BusinessDelegate().updateStatus(reimb, user, status);
 			
-
+			getReimbs(req, resp);			
 			@SuppressWarnings("unchecked")
-			List<Reimbursement> list = (List<Reimbursement>) session.getAttribute("reimbs");
-			System.out.println("ReimbContoller: insertReimb(): list of reimbursements:" + list);
-			
+			List<Reimbursement> list = (List<Reimbursement>) session.getAttribute("reimbs");			
 			req.getSession().setAttribute("reimbs", list);
 			req.getRequestDispatcher("managerHome.jsp").forward(req, resp);
 		}catch(Exception e) {
@@ -146,6 +143,11 @@ public class ReimbController {
 			ReimbStatus status = new ReimbStatus(3, "Denied");
 			User user = (User) session.getAttribute("user");
 			new BusinessDelegate().updateStatus(reimb, user, status);
+			
+			getReimbs(req, resp);
+			@SuppressWarnings("unchecked")
+			List<Reimbursement> list = (List<Reimbursement>) session.getAttribute("reimbs");
+			req.getSession().setAttribute("reimbs", list);
 			req.getRequestDispatcher("managerHome.jsp").forward(req, resp);
 		}catch(Exception e){
 			e.printStackTrace();
